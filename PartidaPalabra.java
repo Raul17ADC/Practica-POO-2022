@@ -8,10 +8,10 @@ public class PartidaPalabra {
 
     //Constructor
     public PartidaPalabra(Palabra palabraOculta, Jugador jugador1, Jugador jugador2) {
-        palabraOculta = new Palabra();
-        jugador1 = new Jugador(jugador1.getNombreUsuario());
-        jugador2 = new Jugador(jugador2.getNombreUsuario());
-        ganador = new Jugador();
+        this.palabraOculta = new Palabra();
+        this.jugador1 = new Jugador(jugador1.getNombreUsuario());
+        this.jugador2 = new Jugador(jugador2.getNombreUsuario());
+        ganador = null;
         turno = 1;
         intentoj1.setNumIntento(1);
         intentoj2.setNumIntento(1);
@@ -22,8 +22,8 @@ public class PartidaPalabra {
         return ganador;
     }
 
-    public void setGanador(Jugador ganador) {
-        this.ganador = ganador;
+    public void setGanador(Jugador j) {
+        this.ganador = j;
     }
 
     public Jugador getJugador1() {
