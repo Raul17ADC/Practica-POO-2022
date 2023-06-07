@@ -2,11 +2,11 @@ public class Palabra {
 
     //Atributos
     private char[] letras;
-    private static final int MAX = 5;
+    public static final int MAX = 5;
 
     //Constructor
-    public Palabra() {
-        letras = new char[MAX];
+    public Palabra(String p) {
+        this.letras = p.toLowerCase().toCharArray();
     }
 
     //Getter

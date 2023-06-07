@@ -1,16 +1,15 @@
 public class Intento {
 
-    //Atributos
+    // Atributos
     private int numIntento;
-    private static final int MAXNUMINTENTOS = 5;
-    private Palabra palabra;
-    private Jugador jugador;
+    private static final int MAXNUMINTENTOS = 5; // Constante para el número máximo de intentos
 
-    //Constructor
+    // Constructor
     public Intento() {
+        this.numIntento = 0; //Inicializamos el número de intentos a 0
     }
 
-    //Getters y Setters
+    // Getters y Setters
     public int getNumIntento() {
         return numIntento;
     }
@@ -19,19 +18,15 @@ public class Intento {
         this.numIntento = numIntento;
     }
 
-    public Palabra getPalabra() {
-        return palabra;
+    // Método para incrementar el número de intentos
+    public void incrementarIntento() {
+        if (this.numIntento < MAXNUMINTENTOS) { //Comprueba si se ha alcanzado el número máximo de intentos
+            this.numIntento++;
+        }
     }
 
-    public void setPalabra(Palabra palabra) {
-        this.palabra = palabra;
-    }
-
-    public Jugador getJugador() {
-        return jugador;
-    }
-
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
+    // Método para comprobar si se ha alcanzado el número máximo de intentos
+    public boolean maxIntentosAlcanzados() {
+        return this.numIntento >= MAXNUMINTENTOS;
     }
 }

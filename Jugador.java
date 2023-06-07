@@ -3,19 +3,16 @@ public class Jugador {
     //Atributos
     private String nombreUsuario;
     private int puntos, ganadas, perdidas, empatadas;
-    private Intento intento;
 
     //Constructores
     public Jugador(String nombreUsuario) {
         if ((nombreUsuario != null) || (!nombreUsuario.equals(""))) {
             this.nombreUsuario = nombreUsuario;
         }
-        intento.setNumIntento(1);
     }
 
     public Jugador(){
         nombreUsuario = "Sin definir";
-        intento.setNumIntento(1);
     }
 
     //Getters y Setters
@@ -63,15 +60,7 @@ public class Jugador {
         this.empatadas = empatadas;
     }
 
-    public Intento getIntento() {
-        return intento;
-    }
-
-    public void setIntento(Intento intento) {
-        this.intento = intento;
-    }
-
-    //Métodos
+    //MÃ©todos
     @Override
     public String toString() {
         return "Nombre de usuario: " + nombreUsuario + "\n" + "Puntos: " + puntos + "\n"

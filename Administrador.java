@@ -1,15 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Administrador {
     private List<Jugador> jugadores;
-    private int numPalabras;
+    private List<Palabra> palabras;
     private boolean pistaLetra;
     private boolean pistaPalabra;
-    private List<PartidaPalabra> partidas;
+    private List<Partida> partidas;
+
+
+
 
     public Administrador() {
         jugadores = new ArrayList<>();
+        palabras = new ArrayList<>();
         partidas = new ArrayList<>();
     }
 
@@ -21,28 +27,41 @@ public class Administrador {
         jugadores.remove(jugador);
     }
 
-    public void configurarJuego(int numPalabras, boolean pistaLetra, boolean pistaPalabra) {
-        this.numPalabras = numPalabras;
+    public void agregarPalabra(Palabra palabra) {
+        palabras.add(palabra);
+    }
+
+    public void eliminarPalabra(Palabra palabra) {
+        palabras.remove(palabra);
+    }
+
+    public void configurarJuego(List<Palabra> palabras, boolean pistaLetra, boolean pistaPalabra) {
+        this.palabras = palabras;
         this.pistaLetra = pistaLetra;
         this.pistaPalabra = pistaPalabra;
     }
 
     public void iniciarPartida(Jugador jugador1, Jugador jugador2) {
-        PartidaPalabra partida = new PartidaPalabra(numPalabras, jugador1, jugador2);
+        List<String> palabrasJuego = palabras.stream()
+                .map(Palabra::toString)
+                .collect(Collectors.toList());
+        // Elegir una palabra al azar
+        String palabraAdivinar = palabrasJuego.get(new Random().nextInt(palabrasJuego.size()));
+        Partida partida = new Partida(palabrasJuego, jugador1, jugador2, palabraAdivinar);
         partidas.add(partida);
-       // partida.jugarPartida();
+        partida.jugar();
     }
 
     public void obtenerInformacionCompletaPartidas() {
-        for (PartidaPalabra partida : partidas) {
+        for (Partida partida : partidas) {
             System.out.println("Partida:");
             System.out.println("Jugador 1: " + partida.getJugador1().getNombreUsuario());
             System.out.println("Jugador 2: " + partida.getJugador2().getNombreUsuario());
-            System.out.println("Palabra oculta: " + partida.getPalabraOculta());
-            System.out.println("Intentos jugador 1: " + partida.getIntentoj1().getNumIntento());
-            System.out.println("Intentos jugador 2: " + partida.getIntentoj2().getNumIntento());
-         //   System.out.println("Pistas utilizadas jugador 1: " + partida.getIntentoj1().getPistasUtilizadas());
-         //   System.out.println("Pistas utilizadas jugador 2: " + partida.getIntentoj2().getPistasUtilizadas());
+            System.out.println("Palabra oculta: " + partida.getPalabras());
+            System.out.println("Intentos jugador 1: " + partida.getIntentosJ1());
+            System.out.println("Intentos jugador 2: " + partida.getIntentosJ2());
+            //   System.out.println("Pistas utilizadas jugador 1: " + partida.getIntentoj1().getPistasUtilizadas());
+            //   System.out.println("Pistas utilizadas jugador 2: " + partida.getIntentoj2().getPistasUtilizadas());
             System.out.println("--------------");
         }
     }
@@ -62,5 +81,7 @@ public class Administrador {
             System.out.println(jugador.getNombreUsuario());
         }
     }
+
+
 }
 
