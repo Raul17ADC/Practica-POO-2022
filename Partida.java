@@ -10,8 +10,8 @@ public class Partida {
     private List<Palabra> palabras;
     private int turno;
     private String palabraAdivinar;
-
     private String palabraMostrada;
+    private boolean entrenamiento;
 
     private List<Intento> intentosJ1, intentosJ2; //Lista de intentos para cada jugador
 
@@ -20,18 +20,24 @@ public class Partida {
         this.palabras = palabras.stream()
                 .map(Palabra::new)
                 .collect(Collectors.toList());
-        this.jugador1 = new Jugador(jugador1.getNombreUsuario());
-        this.jugador2 = new Jugador(jugador2.getNombreUsuario());
+        this.jugador1 = jugador1;
+        this.jugador2 = jugador2 != null ? jugador2 : null;
         this.palabraAdivinar = palabraAdivinar.toLowerCase();
         this.palabraMostrada = new String(new char[palabraAdivinar.length()]).replace('\0', '_');
 
         ganador = null;
         turno = 1;
+        entrenamiento = jugador2 == null;
+
         intentosJ1 = new ArrayList<>();
-        intentosJ2 = new ArrayList<>();
         for (int i = 0; i < palabras.size(); i++) {
             intentosJ1.add(new Intento());
-            intentosJ2.add(new Intento());
+        }
+        if(!entrenamiento) {
+            intentosJ2 = new ArrayList<>();
+            for (int i = 0; i < palabras.size(); i++) {
+                intentosJ2.add(new Intento());
+            }
         }
     }
 
@@ -52,21 +58,33 @@ public class Partida {
 
     public String comprobarLetra(char letraIntroducida) {
         letraIntroducida = Character.toLowerCase(letraIntroducida);
-        if (this.palabraAdivinar.indexOf(letraIntroducida) >= 0) {
-            revelarLetra(letraIntroducida);
-            return "La letra " + letraIntroducida + " está en la palabra.";}
-        else {
+        boolean letraEncontrada = false;
+        boolean posicionCorrecta = false;
+
+        for (int i = 0; i < palabraAdivinar.length(); i++) {
+            if (palabraAdivinar.charAt(i) == letraIntroducida) {
+                letraEncontrada = true;
+                if (palabraMostrada.charAt(i) == '_') {
+                    revelarLetra(letraIntroducida, i);
+                    posicionCorrecta = true;
+                }
+            }
+        }
+
+        if (letraEncontrada) {
+            if (posicionCorrecta) {
+                return "La letra " + letraIntroducida + " está en la posición correcta.";
+            } else {
+                return "La letra " + letraIntroducida + " está en la palabra, pero en la posición incorrecta.";
+            }
+        } else {
             return "La letra " + letraIntroducida + " no está en la palabra.";
         }
     }
 
-    private void revelarLetra(char letra) {
+    private void revelarLetra(char letra, int posicion) {
         StringBuilder nuevaPalabraMostrada = new StringBuilder(palabraMostrada);
-        for (int i = 0; i < palabraAdivinar.length(); i++) {
-            if (palabraAdivinar.charAt(i) == letra) {
-                nuevaPalabraMostrada.setCharAt(i, letra);
-            }
-        }
+        nuevaPalabraMostrada.setCharAt(posicion, letra);
         palabraMostrada = nuevaPalabraMostrada.toString();
     }
     public boolean contieneLetra(char letraIntroducida) {
@@ -75,34 +93,23 @@ public class Partida {
     }
     public void jugar() {
         Scanner scanner = new Scanner(System.in);
-        while (ganador == null)
+        while (partidaSigueJugandose()) {
             System.out.println("Palabra a adivinar: " + palabraMostrada);
-        {
             Jugador jugadorActual = turno == 1 ? jugador1 : jugador2;
             System.out.println("Turno del jugador: " + jugadorActual.getNombreUsuario());
-
-            // Aquí necesitarías una forma de obtener la entrada del usuario.
-            // Como esto es solo un ejemplo, supondremos que ya tienes un método para eso,
-            // llamado obtenerEntradaDelUsuario(), que devuelve un string.
-
             String entradaUsuario = obtenerEntradaDelUsuario();
 
-            // Si la entrada del usuario es una sola letra, comprueba si está en la palabra.
-            if (entradaUsuario.length() == 1) {
-                char letra = entradaUsuario.charAt(0);
-                if (contieneLetra(letra)) {
-                    System.out.println("¡La letra " + letra + " está en la palabra!");
-                    // Aquí necesitarías actualizar cualquier representación de la palabra que estés mostrando al jugador.
-                } else {
-                    System.out.println("Lo siento, la letra " + letra + " no está en la palabra.");
-                }
-            }
+            // ...
+            // Tu lógica para manejar las adivinanzas de los jugadores.
+            // ...
 
             // Si la entrada del usuario es una palabra, comprueba si es la palabra correcta.
-            else if (entradaUsuario.length() > 1) {
+        else if (entradaUsuario.length() > 1) {
                 if (esPalabraCorrecta(entradaUsuario)) {
                     System.out.println("¡Felicidades, " + jugadorActual.getNombreUsuario() + ", has adivinado la palabra!");
-                    ganador = jugadorActual;
+
+                    // Incrementa los puntos del jugador actual según las reglas del juego.
+                    jugadorActual.incrementarPuntos();
                 } else {
                     System.out.println("Lo siento, " + entradaUsuario + " no es la palabra correcta.");
                 }
@@ -111,23 +118,25 @@ public class Partida {
             cambiarTurno();
         }
 
-        System.out.println("¡El juego ha terminado! El ganador es " + ganador.getNombreUsuario());
+        determinarGanador(); // Llama a determinarGanador al final del juego para determinar quién ganó basado en los puntos.
     }
 
     public void determinarGanador() {
-        // El ganador es el jugador con más partidas ganadas.
-        // Si hay un empate, el ganador es el jugador con más puntos.
-        if (jugador1.getGanadas() > jugador2.getGanadas() ||
-                (jugador1.getGanadas() == jugador2.getGanadas() && jugador1.getPuntos() > jugador2.getPuntos())) {
-            this.ganador = jugador1;
-            System.out.println("El ganador es " + jugador1.getNombreUsuario());
-        } else if (jugador2.getGanadas() > jugador1.getGanadas() ||
-                (jugador2.getGanadas() == jugador1.getGanadas() && jugador2.getPuntos() > jugador1.getPuntos())) {
-            this.ganador = jugador2;
-            System.out.println("El ganador es " + jugador2.getNombreUsuario());
+        // El ganador es el jugador con más puntos.
+        if (!entrenamiento) {
+            if (jugador1.getPuntos() > jugador2.getPuntos()) {
+                this.ganador = jugador1;
+                System.out.println("El ganador es " + jugador1.getNombreUsuario());
+            } else if (jugador2.getPuntos() > jugador1.getPuntos()) {
+                this.ganador = jugador2;
+                System.out.println("El ganador es " + jugador2.getNombreUsuario());
+            } else {
+                // En caso de empate en puntos
+                System.out.println("La partida ha terminado en empate.");
+            }
         } else {
-            // En caso de empate en partidas ganadas y puntos
-            System.out.println("La partida ha terminado en empate.");
+            // Modo entrenamiento. No hay ganador.
+            System.out.println("Modo de entrenamiento. No hay ganador.");
         }
     }
 
@@ -190,10 +199,12 @@ public class Partida {
 
     // Cambia el turno del jugador
     public void cambiarTurno() {
-        if (turno == 1) {
-            setTurno(2);
-        } else {
-            setTurno(1);
+        if (!entrenamiento) {
+            if (turno == 1) {
+                setTurno(2);
+            } else {
+                setTurno(1);
+            }
         }
     }
 }

@@ -82,4 +82,8 @@ public class Jugador {
         Jugador other = (Jugador) obj;
         return nombreUsuario.equalsIgnoreCase(other.getNombreUsuario());
     }
+
+    public void incrementarPuntos() {
+        //Hacer clase
+    }
 }
