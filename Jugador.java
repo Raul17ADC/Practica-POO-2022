@@ -1,5 +1,5 @@
 
-public class Jugador {
+public class Jugador implements Comparable<Jugador>{
 
     //Atributos
     private String nombreUsuario;
@@ -69,5 +69,10 @@ public class Jugador {
         }
         Jugador other = (Jugador) obj;
         return nombreUsuario.equalsIgnoreCase(other.getNombreUsuario());
+    }
+
+    @Override
+    public int compareTo(Jugador other) {
+        return this.nombreUsuario.compareToIgnoreCase(other.nombreUsuario);
     }
 }
