@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class Partida {
 
     // Atributos
-    private Jugador ganador, jugador1, jugador2;
+    private Jugador perdedor,ganador, jugador1, jugador2;
     private List<Palabra> palabras;
     private int turno;
     private String palabraAdivinar;
@@ -26,6 +26,7 @@ public class Partida {
         this.palabraMostrada = new String(new char[palabraAdivinar.length()]).replace('\0', '_');
 
         ganador = null;
+        perdedor=null;
         turno = 1;
         entrenamiento = jugador2 == null;
 
@@ -92,33 +93,77 @@ public class Partida {
         return this.palabraAdivinar.indexOf(letraIntroducida) >= 0;
     }
     public void jugar() {
+        jugador1.setPuntos(0);
+        jugador2.setPuntos(0);
         Scanner scanner = new Scanner(System.in);
-        while (partidaSigueJugandose()) {
-            System.out.println("Palabra a adivinar: " + palabraMostrada);
-            Jugador jugadorActual = turno == 1 ? jugador1 : jugador2;
-            System.out.println("Turno del jugador: " + jugadorActual.getNombreUsuario());
-            String entradaUsuario = obtenerEntradaDelUsuario();
 
-            // ...
-            // Tu lógica para manejar las adivinanzas de los jugadores.
-            // ...
+        for (Palabra palabra : this.palabras) {
+            int intentosRestantes = 5;
+            PistaLetra pistaLetra = new PistaLetra(palabra);
+            PistaPalabra pistaPalabra = new PistaPalabra(palabra);
+            Jugador jugadorActual = this.getTurno() == 1 ? jugador1 : jugador2;
 
-            // Si la entrada del usuario es una palabra, comprueba si es la palabra correcta.
-        else if (entradaUsuario.length() > 1) {
-                if (esPalabraCorrecta(entradaUsuario)) {
-                    System.out.println("¡Felicidades, " + jugadorActual.getNombreUsuario() + ", has adivinado la palabra!");
+            while (intentosRestantes > 0) {
+                System.out.println("Intentos restantes: " + intentosRestantes);
+                System.out.println("Palabra actual: " + palabraMostrada);
+                System.out.println("Introduce tu propuesta o escribe 'letra' para regalo de letra o 'palabra' para regalo de palabra:");
 
-                    // Incrementa los puntos del jugador actual según las reglas del juego.
-                    jugadorActual.incrementarPuntos();
+                String input = scanner.nextLine();
+
+                if (input.equalsIgnoreCase("letra")) {
+                    try {
+                        pistaLetra.comprarPista(jugadorActual);
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else if (input.equalsIgnoreCase("palabra")) {
+                    try {
+                        pistaPalabra.comprarPista(jugadorActual);
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else if (esPalabraCorrecta(input)) {
+                    System.out.println("¡Correcto! La palabra es '" + palabraAdivinar + "'");
+                    acertarPalabra(palabras.indexOf(palabra), jugadorActual);
+                    break;
                 } else {
-                    System.out.println("Lo siento, " + entradaUsuario + " no es la palabra correcta.");
+                    System.out.println(comprobarLetra(input.charAt(0)));
+                    intentosRestantes--;
                 }
             }
-
-            cambiarTurno();
+            if (intentosRestantes == 0) {
+                System.out.println("Se te acabaron los intentos. La palabra era '" + palabraAdivinar + "'");
+                cambiarTurno();
+            }
         }
 
-        determinarGanador(); // Llama a determinarGanador al final del juego para determinar quién ganó basado en los puntos.
+        determinarGanador();
+        terminarPartida();
+        scanner.close();
+
+
+    }
+    public void terminarPartida() {
+        if ((ganador != null && perdedor != null) && !entrenamiento) { // En caso de que haya un empate
+            ganador.getEstadisticas().setPartidasGanadas(ganador.getEstadisticas().getPartidasGanadas() + 1);
+            perdedor.getEstadisticas().setPartidasPerdidas(perdedor.getEstadisticas().getPartidasPerdidas() + 1);
+
+            // Si no es un entrenamiento, actualizamos los puntos totales del jugador
+            if (!entrenamiento) {
+                ganador.getEstadisticas().setPuntosTotales(ganador.getEstadisticas().getPuntosTotales() + ganador.getPuntos());
+                perdedor.getEstadisticas().setPuntosTotales(perdedor.getEstadisticas().getPuntosTotales() + perdedor.getPuntos());
+            }
+        } else {
+            // Actualiza estadísticas para un empate
+            jugador1.getEstadisticas().setPartidasEmpatadas(jugador1.getEstadisticas().getPartidasEmpatadas() + 1);
+            jugador2.getEstadisticas().setPartidasEmpatadas(jugador2.getEstadisticas().getPartidasEmpatadas() + 1);
+
+            // Si no es un entrenamiento, actualizamos los puntos totales de cada jugador
+            if (!entrenamiento) {
+                jugador1.getEstadisticas().setPuntosTotales(jugador1.getEstadisticas().getPuntosTotales() + jugador1.getPuntos());
+                jugador2.getEstadisticas().setPuntosTotales(jugador2.getEstadisticas().getPuntosTotales() + jugador2.getPuntos());
+            }
+        }
     }
 
     public void determinarGanador() {
@@ -126,9 +171,11 @@ public class Partida {
         if (!entrenamiento) {
             if (jugador1.getPuntos() > jugador2.getPuntos()) {
                 this.ganador = jugador1;
+                this.perdedor=jugador2;
                 System.out.println("El ganador es " + jugador1.getNombreUsuario());
             } else if (jugador2.getPuntos() > jugador1.getPuntos()) {
                 this.ganador = jugador2;
+                this.perdedor=jugador1;
                 System.out.println("El ganador es " + jugador2.getNombreUsuario());
             } else {
                 // En caso de empate en puntos

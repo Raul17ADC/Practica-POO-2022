@@ -3,14 +3,14 @@ public class Estadisticas {
     private int PartidasGanadas;
     private int PartidasEmpatadas;
     private int PartidasPerdidas;
-    private int PuntosTotales;
+    private int puntosTotales;
 
 
     public Estadisticas() {
         this.PartidasEmpatadas = 0;
         this.PartidasGanadas = 0;
         this.PartidasPerdidas = 0;
-        this.PuntosTotales = 0;
+        this.puntosTotales=0;
 
     }
 
@@ -31,9 +31,20 @@ public class Estadisticas {
         return PartidasPerdidas;
     }
 
-
     public int getPuntosTotales() {
-        return PuntosTotales;
+        return puntosTotales;
+    }
+
+    public void setPuntosTotales(int puntosTotales) {
+        this.puntosTotales = puntosTotales;
+    }
+
+    public void setPartidasEmpatadas(int partidasEmpatadas) {
+        PartidasEmpatadas = partidasEmpatadas;
+    }
+
+    public void setPartidasPerdidas(int partidasPerdidas) {
+        PartidasPerdidas = partidasPerdidas;
     }
 
     @Override
@@ -42,7 +53,6 @@ public class Estadisticas {
                 "PartidasGanadas=" + PartidasGanadas +
                 ", PartidasEmpatadas=" + PartidasEmpatadas +
                 ", PartidasPerdidas=" + PartidasPerdidas +
-                ", PuntosTotales=" + PuntosTotales +
                 '}';
     }
 

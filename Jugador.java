@@ -2,16 +2,18 @@ public class Jugador {
 
     //Atributos
     private String nombreUsuario;
-    private int puntos, ganadas, perdidas, empatadas;
+    private int puntos;
+    private Estadisticas estadisticas;
 
     //Constructores
     public Jugador(String nombreUsuario) {
         if ((nombreUsuario != null) || (!nombreUsuario.equals(""))) {
             this.nombreUsuario = nombreUsuario;
         }
+        this.estadisticas = new Estadisticas();
     }
 
-    public Jugador(){
+    public Jugador() {
         nombreUsuario = "Sin definir";
     }
 
@@ -36,37 +38,22 @@ public class Jugador {
         this.puntos = puntos;
     }
 
-    public int getGanadas() {
-        return ganadas;
-    }
-
-    public void setGanadas(int ganadas) {
-        this.ganadas = ganadas;
-    }
-
-    public int getPerdidas() {
-        return perdidas;
-    }
-
-    public void setPerdidas(int perdidas) {
-        this.perdidas = perdidas;
-    }
-
-    public int getEmpatadas() {
-        return empatadas;
-    }
-
-    public void setEmpatadas(int empatadas) {
-        this.empatadas = empatadas;
+    public Estadisticas getEstadisticas() {
+        return estadisticas;
     }
 
     //MÃ©todos
+
+
     @Override
     public String toString() {
-        return "Nombre de usuario: " + nombreUsuario + "\n" + "Puntos: " + puntos + "\n"
-                + "Partidas ganadas: " + ganadas + "\n" + "Partidas perdidas: " + perdidas + "\n"
-                + "Partidas empatadas: " + empatadas + "\n";
+        return "Jugador{" +
+                "nombreUsuario='" + nombreUsuario + '\'' +
+                ", puntos=" + puntos +
+                ", estadisticas=" + estadisticas +
+                '}';
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -83,7 +70,4 @@ public class Jugador {
         return nombreUsuario.equalsIgnoreCase(other.getNombreUsuario());
     }
 
-    public void incrementarPuntos() {
-        //Hacer clase
-    }
 }
