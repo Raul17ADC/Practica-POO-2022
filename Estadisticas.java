@@ -1,3 +1,4 @@
+
 public class Estadisticas {
 
     private int PartidasGanadas;
@@ -5,13 +6,11 @@ public class Estadisticas {
     private int PartidasPerdidas;
     private int puntosTotales;
 
-
     public Estadisticas() {
         this.PartidasEmpatadas = 0;
         this.PartidasGanadas = 0;
         this.PartidasPerdidas = 0;
-        this.puntosTotales=0;
-
+        this.puntosTotales = 0;
     }
 
     public int getPartidasGanadas() {
@@ -25,7 +24,6 @@ public class Estadisticas {
     public int getPartidasEmpatadas() {
         return PartidasEmpatadas;
     }
-
 
     public int getPartidasPerdidas() {
         return PartidasPerdidas;
@@ -49,14 +47,11 @@ public class Estadisticas {
 
     @Override
     public String toString() {
-        return "Estadisticas{" +
-                "PartidasGanadas=" + PartidasGanadas +
-                ", PartidasEmpatadas=" + PartidasEmpatadas +
-                ", PartidasPerdidas=" + PartidasPerdidas +
-                '}';
+        return "Estadisticas{"
+                + "PartidasGanadas=" + PartidasGanadas
+                + ", PartidasEmpatadas=" + PartidasEmpatadas
+                + ", PartidasPerdidas=" + PartidasPerdidas
+                + '}';
     }
 
-
 }
-
-

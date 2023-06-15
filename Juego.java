@@ -1,3 +1,4 @@
+
 import java.util.List;
 
 public class Juego {
@@ -26,7 +27,6 @@ public class Juego {
     public void jugarPartida(Jugador jugador1, Jugador jugador2) {
         this.administrador.iniciarPartida(jugador1, jugador2);
     }
-
 
     public void agregarJugador(Jugador jugador) {
         this.jugadores.add(jugador);

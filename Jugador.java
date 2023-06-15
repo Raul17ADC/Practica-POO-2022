@@ -1,3 +1,4 @@
+
 public class Jugador {
 
     //Atributos
@@ -7,14 +8,17 @@ public class Jugador {
 
     //Constructores
     public Jugador(String nombreUsuario) {
-        if ((nombreUsuario != null) || (!nombreUsuario.equals(""))) {
+        if ((nombreUsuario != null) && (!nombreUsuario.isEmpty())) {
             this.nombreUsuario = nombreUsuario;
         }
-        this.estadisticas = new Estadisticas();
+        puntos = 0;
+        estadisticas = new Estadisticas();
     }
 
     public Jugador() {
         nombreUsuario = "Sin definir";
+        puntos = 0;
+        estadisticas = new Estadisticas();
     }
 
     //Getters y Setters
@@ -23,7 +27,7 @@ public class Jugador {
     }
 
     public boolean setNombreUsuario(String nombreUsuario) {
-        if ((nombreUsuario != null) || (!nombreUsuario.equals(""))) {
+        if ((nombreUsuario != null) && (!nombreUsuario.isEmpty())) {
             this.nombreUsuario = nombreUsuario;
             return true;
         }
@@ -42,18 +46,15 @@ public class Jugador {
         return estadisticas;
     }
 
-    //MÃ©todos
-
-
-    @Override
-    public String toString() {
-        return "Jugador{" +
-                "nombreUsuario='" + nombreUsuario + '\'' +
-                ", puntos=" + puntos +
-                ", estadisticas=" + estadisticas +
-                '}';
+    public void setEstadisticas(Estadisticas estadisticas) {
+        this.estadisticas = estadisticas;
     }
 
+    //Métodos
+    @Override
+    public String toString() {
+        return "Nombre: " + nombreUsuario + ", Puntos: " + puntos + ", Estadísticas: " + estadisticas;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -69,5 +70,4 @@ public class Jugador {
         Jugador other = (Jugador) obj;
         return nombreUsuario.equalsIgnoreCase(other.getNombreUsuario());
     }
-
 }

@@ -1,5 +1,8 @@
+
 public class PistaPalabra extends Pista {
+
     private static final int COSTE = 5;
+
     //Constructor
     public PistaPalabra(Palabra palabra) {
         super(COSTE, palabra);

@@ -1,3 +1,4 @@
+
 public abstract class Pista {
 
     //Atributos
@@ -5,7 +6,7 @@ public abstract class Pista {
     private Palabra palabra;
 
     //Constructor
-    public Pista(int coste, Palabra palabra){
+    public Pista(int coste, Palabra palabra) {
         this.coste = coste;
         this.palabra = palabra;
     }

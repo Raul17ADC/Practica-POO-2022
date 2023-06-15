@@ -1,3 +1,4 @@
+
 public class PistaLetra extends Pista {
 
     //Atributos
@@ -5,7 +6,7 @@ public class PistaLetra extends Pista {
     private static final int COSTE = 2;
 
     //Constructor
-    public PistaLetra( Palabra palabra) {
+    public PistaLetra(Palabra palabra) {
         super(COSTE, palabra);
     }
 

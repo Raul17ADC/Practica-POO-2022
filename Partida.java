@@ -1,12 +1,16 @@
+
 import java.util.ArrayList;
-import java.util.List;;
+import java.util.List;
+;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+
 
 public class Partida {
 
     // Atributos
-    private Jugador perdedor,ganador, jugador1, jugador2;
+    private Jugador perdedor, ganador, jugador1, jugador2;
     private List<Palabra> palabras;
     private int turno;
     private String palabraAdivinar;
@@ -16,7 +20,7 @@ public class Partida {
     private List<Intento> intentosJ1, intentosJ2; //Lista de intentos para cada jugador
 
     // Constructor
-    public Partida(List<String> palabras, Jugador jugador1, Jugador jugador2,String palabraAdivinar) {
+    public Partida(List<String> palabras, Jugador jugador1, Jugador jugador2, String palabraAdivinar) {
         this.palabras = palabras.stream()
                 .map(Palabra::new)
                 .collect(Collectors.toList());
@@ -26,7 +30,7 @@ public class Partida {
         this.palabraMostrada = new String(new char[palabraAdivinar.length()]).replace('\0', '_');
 
         ganador = null;
-        perdedor=null;
+        perdedor = null;
         turno = 1;
         entrenamiento = jugador2 == null;
 
@@ -34,7 +38,7 @@ public class Partida {
         for (int i = 0; i < palabras.size(); i++) {
             intentosJ1.add(new Intento());
         }
-        if(!entrenamiento) {
+        if (!entrenamiento) {
             intentosJ2 = new ArrayList<>();
             for (int i = 0; i < palabras.size(); i++) {
                 intentosJ2.add(new Intento());
@@ -55,7 +59,8 @@ public class Partida {
     }
 
     public boolean esPalabraCorrecta(String palabraIntroducida) {
-        return this.palabraAdivinar.equals(palabraIntroducida.toLowerCase());}
+        return this.palabraAdivinar.equals(palabraIntroducida.toLowerCase());
+    }
 
     public String comprobarLetra(char letraIntroducida) {
         letraIntroducida = Character.toLowerCase(letraIntroducida);
@@ -88,10 +93,12 @@ public class Partida {
         nuevaPalabraMostrada.setCharAt(posicion, letra);
         palabraMostrada = nuevaPalabraMostrada.toString();
     }
+
     public boolean contieneLetra(char letraIntroducida) {
         letraIntroducida = Character.toLowerCase(letraIntroducida);
         return this.palabraAdivinar.indexOf(letraIntroducida) >= 0;
     }
+
     public void jugar() {
         jugador1.setPuntos(0);
         jugador2.setPuntos(0);
@@ -141,8 +148,8 @@ public class Partida {
         terminarPartida();
         scanner.close();
 
-
     }
+
     public void terminarPartida() {
         if ((ganador != null && perdedor != null) && !entrenamiento) { // En caso de que haya un empate
             ganador.getEstadisticas().setPartidasGanadas(ganador.getEstadisticas().getPartidasGanadas() + 1);
@@ -171,11 +178,11 @@ public class Partida {
         if (!entrenamiento) {
             if (jugador1.getPuntos() > jugador2.getPuntos()) {
                 this.ganador = jugador1;
-                this.perdedor=jugador2;
+                this.perdedor = jugador2;
                 System.out.println("El ganador es " + jugador1.getNombreUsuario());
             } else if (jugador2.getPuntos() > jugador1.getPuntos()) {
                 this.ganador = jugador2;
-                this.perdedor=jugador1;
+                this.perdedor = jugador1;
                 System.out.println("El ganador es " + jugador2.getNombreUsuario());
             } else {
                 // En caso de empate en puntos
@@ -186,7 +193,6 @@ public class Partida {
             System.out.println("Modo de entrenamiento. No hay ganador.");
         }
     }
-
 
     public Jugador getGanador() {
         return ganador;

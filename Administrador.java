@@ -1,17 +1,21 @@
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Administrador {
+
     private List<Jugador> jugadores;
     private List<Palabra> palabras;
     private boolean pistaLetra;
     private boolean pistaPalabra;
     private List<Partida> partidas;
-
-
-
 
     public Administrador() {
         jugadores = new ArrayList<>();
@@ -33,6 +37,79 @@ public class Administrador {
 
     public void eliminarPalabra(Palabra palabra) {
         palabras.remove(palabra);
+    }
+
+    public void agregarNuevoJugador(String nombre) {
+        // Verificar si el archivo de jugadores existe, de lo contrario, crearlo
+        Path archivoJugadores = Path.of("jugadores.txt");
+        if (!Files.exists(archivoJugadores)) {
+            try {
+                Files.createFile(archivoJugadores);
+            } catch (IOException e) {
+                throw new RuntimeException("Error al crear el archivo de jugadores: " + e.getMessage());
+            }
+        }
+
+        // Crear el objeto Jugador con valores predeterminados
+        Jugador jugador = new Jugador(nombre);
+
+        // Agregar el jugador al final del archivo
+        try ( BufferedWriter writer = new BufferedWriter(new FileWriter(archivoJugadores.toFile(), true))) {
+            writer.write(jugador.toString());
+            writer.newLine();
+            // Lanzar una excepción en caso de error al escribir en el archivo
+        } catch (IOException e) {
+            throw new RuntimeException("Error al escribir en el archivo de jugadores: " + e.getMessage());
+        }
+    }
+
+    public void eliminarJugador(String nombre) {
+        // Verificar si el archivo de jugadores existe
+        Path archivoJugadores = Path.of("jugadores.txt");
+        if (Files.exists(archivoJugadores)) {
+            try {
+                List<String> lineas = Files.readAllLines(archivoJugadores);
+                List<String> lineasActualizadas = lineas.stream()
+                        .filter(linea -> !linea.contains(nombre))
+                        .collect(Collectors.toList());
+                Files.write(archivoJugadores, lineasActualizadas);
+            } catch (IOException e) {
+                throw new RuntimeException("Error al eliminar el jugador del archivo de jugadores: " + e.getMessage());
+            }
+        } else {
+            throw new RuntimeException("El archivo de jugadores no existe");
+        }
+    }
+
+    private Jugador convertirLineaAJugador(String linea) {
+        String[] datos = linea.split(",");
+        if (datos.length == 3) {
+            String nombreUsuario = datos[0];
+            int puntos = Integer.parseInt(datos[1]);
+            Estadisticas estadisticas = convertirLineaAEstadisticas(datos[2]);
+            Jugador jugador = new Jugador(nombreUsuario);
+            jugador.setPuntos(puntos);
+            jugador.setEstadisticas(estadisticas);
+            return jugador;
+        }
+        return null;
+    }
+
+    private Estadisticas convertirLineaAEstadisticas(String linea) {
+        String[] datos = linea.split(",");
+        if (datos.length == 4) {
+            int partidasGanadas = Integer.parseInt(datos[0]);
+            int partidasEmpatadas = Integer.parseInt(datos[1]);
+            int partidasPerdidas = Integer.parseInt(datos[2]);
+            int puntosTotales = Integer.parseInt(datos[3]);
+            Estadisticas estadisticas = new Estadisticas();
+            estadisticas.setPartidasGanadas(partidasGanadas);
+            estadisticas.setPartidasEmpatadas(partidasEmpatadas);
+            estadisticas.setPartidasPerdidas(partidasPerdidas);
+            estadisticas.setPuntosTotales(puntosTotales);
+            return estadisticas;
+        }
+        return null;
     }
 
     public void configurarJuego(List<Palabra> palabras, boolean pistaLetra, boolean pistaPalabra) {
@@ -81,7 +158,4 @@ public class Administrador {
             System.out.println(jugador.getNombreUsuario());
         }
     }
-
-
 }
-
