@@ -4,10 +4,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 
 public class Administrador {
 
@@ -156,6 +160,56 @@ public class Administrador {
         System.out.println("Ranking alfabético:");
         for (Jugador jugador : jugadores) {
             System.out.println(jugador.getNombreUsuario());
+        }
+    }
+    
+    public void crearRankingAlfabetico() {
+        // Ordenar los jugadores alfabéticamente
+        Collections.sort(jugadores);
+
+        // Obtener la fecha y hora actual para formatear el nombre del archivo
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy-HH.mm");
+        String fechaHoraActual = sdf.format(new Date());
+
+        // Crear el nombre del archivo
+        String nombreArchivo = "Listado." + fechaHoraActual + ".txt";
+
+        // Crear el archivo de jugadores
+        Path archivoJugadores = Path.of(nombreArchivo);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoJugadores.toFile()))) {
+            // Escribir los datos de los jugadores en el archivo
+            for (Jugador jugador : jugadores) {
+                writer.write(jugador.toString());
+                writer.newLine();
+            }
+            JOptionPane.showMessageDialog(null, "Archivo de jugadores generado correctamente.");
+        } catch (IOException e) {
+            throw new RuntimeException("Error al generar el archivo de jugadores: " + e.getMessage());
+        }
+    }
+    
+    public void crearRankingPuntos() {
+        // Ordenar los jugadores por sus puntos de mayor a menor
+        Collections.sort(jugadores, (j1, j2) -> j2.getPuntos() - j1.getPuntos());
+
+        // Obtener la fecha y hora actual para formatear el nombre del archivo
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy-HH.mm");
+        String fechaHoraActual = sdf.format(new Date());
+
+        // Crear el nombre del archivo
+        String nombreArchivo = "Ranking." + fechaHoraActual + ".txt";
+
+        // Crear el archivo de ranking
+        Path archivoRanking = Path.of(nombreArchivo);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoRanking.toFile()))) {
+            // Escribir los datos de los jugadores en el archivo
+            for (Jugador jugador : jugadores) {
+                writer.write(jugador.toString());
+                writer.newLine();
+            }
+            JOptionPane.showMessageDialog(null, "Archivo de ranking generado correctamente.");
+        } catch (IOException e) {
+            throw new RuntimeException("Error al generar el archivo de ranking: " + e.getMessage());
         }
     }
 }
