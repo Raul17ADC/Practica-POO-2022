@@ -1,5 +1,8 @@
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class Interfaz extends javax.swing.JFrame {
@@ -1133,6 +1136,21 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverFichPalActionPerformed
 
     private void bFichPalabrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFichPalabrasActionPerformed
+        StringBuilder palabras = new StringBuilder();
+        String fileName = ""; //hay que poner la ruta del fichero "palabras.txt"
+
+        try ( BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                palabras.append(linea).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        tFichPalabras.setText(palabras.toString());
+        pFichPalabras.setVisible(true);
+        pOpcionesAdmin.setVisible(false);
         pFichPalabras.setVisible(true);
         pOpcionesAdmin.setVisible(false);
     }//GEN-LAST:event_bFichPalabrasActionPerformed
