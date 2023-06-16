@@ -1,0 +1,3 @@
+Nombre: Jorge, Puntos: 40, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: Raúl, Puntos: 70, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: prueba, Puntos: 10, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
