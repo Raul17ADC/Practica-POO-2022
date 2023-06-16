@@ -1163,18 +1163,22 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bSiLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiLetraActionPerformed
         bRegLetra.setVisible(true);
+        bRegLetraEntrenamiento.setVisible(true);
     }//GEN-LAST:event_bSiLetraActionPerformed
 
     private void bNoLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoLetraActionPerformed
         bRegLetra.setVisible(false);
+        bRegLetraEntrenamiento.setVisible(false);
     }//GEN-LAST:event_bNoLetraActionPerformed
 
     private void bSiPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiPalabraActionPerformed
         bRegPalabra.setVisible(true);
+        bRegPalabraEntrenamiento.setVisible(true);
     }//GEN-LAST:event_bSiPalabraActionPerformed
 
     private void bNoPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoPalabraActionPerformed
         bRegPalabra.setVisible(false);
+        bRegPalabraEntrenamiento.setVisible(false);
     }//GEN-LAST:event_bNoPalabraActionPerformed
 
     /**
