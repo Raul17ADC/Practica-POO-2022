@@ -119,7 +119,6 @@ public class Interfaz extends javax.swing.JFrame {
         bRankAlfabetico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(520, 450));
         setResizable(false);
 
         pInicio.setPreferredSize(new java.awt.Dimension(500, 400));
@@ -157,7 +156,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addGroup(pInicioLayout.createSequentialGroup()
                                 .addGap(169, 169, 169)
                                 .addComponent(jLabel4)))
-                        .addGap(0, 171, Short.MAX_VALUE))
+                        .addGap(0, 169, Short.MAX_VALUE))
                     .addGroup(pInicioLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(bAdmin)
@@ -172,7 +171,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 297, Short.MAX_VALUE)
                 .addGroup(pInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bAdmin)
                     .addComponent(bJugador))
@@ -251,7 +250,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(74, 74, 74)
                         .addComponent(bEntrenamiento)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         pOpcionesJuegoLayout.setVerticalGroup(
             pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +269,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(tNombreJNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addGroup(pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -400,7 +399,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRegLetra)
                     .addComponent(bRegPalabra))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(bSalirPartida)
                 .addContainerGap())
         );
@@ -508,7 +507,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pEntrenamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRegLetraEntrenamiento)
                     .addComponent(bRegPalabraEntrenamiento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(bSalirEntrenamiento)
                 .addContainerGap())
         );
@@ -580,7 +579,7 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addComponent(bAltaBaja)
                                 .addGap(96, 96, 96)
                                 .addComponent(bInfoPartidas)))
-                        .addGap(0, 78, Short.MAX_VALUE))))
+                        .addGap(0, 31, Short.MAX_VALUE))))
             .addGroup(pOpcionesAdminLayout.createSequentialGroup()
                 .addGroup(pOpcionesAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pOpcionesAdminLayout.createSequentialGroup()
@@ -615,7 +614,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(bParametros))
                         .addGap(37, 37, 37)
                         .addComponent(bFichPalabras)
-                        .addContainerGap(149, Short.MAX_VALUE))))
+                        .addContainerGap(152, Short.MAX_VALUE))))
         );
 
         pAltaYBaja.setPreferredSize(new java.awt.Dimension(500, 400));
@@ -680,7 +679,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pAltaYBajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(pVolverAltaYBaja)
                 .addContainerGap())
         );
@@ -699,18 +698,38 @@ public class Interfaz extends javax.swing.JFrame {
         grupoLetra.add(bSiLetra);
         bSiLetra.setSelected(true);
         bSiLetra.setText("Sí");
+        bSiLetra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSiLetraActionPerformed(evt);
+            }
+        });
 
         grupoLetra.add(bNoLetra);
         bNoLetra.setText("No");
+        bNoLetra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNoLetraActionPerformed(evt);
+            }
+        });
 
         jLabel19.setText("¿Quieres que exista la pista de palabra en las partidas?");
 
         grupoPalabra.add(bSiPalabra);
         bSiPalabra.setSelected(true);
         bSiPalabra.setText("Sí");
+        bSiPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSiPalabraActionPerformed(evt);
+            }
+        });
 
         grupoPalabra.add(bNoPalabra);
         bNoPalabra.setText("No");
+        bNoPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNoPalabraActionPerformed(evt);
+            }
+        });
 
         pVolverParam.setText("Volver");
         pVolverParam.addActionListener(new java.awt.event.ActionListener() {
@@ -787,7 +806,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(bNoPalabra))
                 .addGap(26, 26, 26)
                 .addComponent(bGuardarCambios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(pVolverParam)
                 .addContainerGap())
         );
@@ -839,7 +858,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel21)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(pVolverFichPal)
                 .addContainerGap())
         );
@@ -895,7 +914,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel23)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(pVolverInfoPtds)
                 .addContainerGap())
         );
@@ -943,7 +962,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(pRankingsLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(pVolverRankings)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pRankingsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(pRankingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -967,7 +986,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(bRankPuntos)
                 .addGap(18, 18, 18)
                 .addComponent(bRankAlfabetico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                 .addComponent(pVolverRankings)
                 .addContainerGap())
         );
@@ -1141,6 +1160,22 @@ public class Interfaz extends javax.swing.JFrame {
         pRankings.setVisible(true);
         pOpcionesAdmin.setVisible(false);
     }//GEN-LAST:event_bRankingActionPerformed
+
+    private void bSiLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiLetraActionPerformed
+        bRegLetra.setVisible(true);
+    }//GEN-LAST:event_bSiLetraActionPerformed
+
+    private void bNoLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoLetraActionPerformed
+        bRegLetra.setVisible(false);
+    }//GEN-LAST:event_bNoLetraActionPerformed
+
+    private void bSiPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiPalabraActionPerformed
+        bRegPalabra.setVisible(true);
+    }//GEN-LAST:event_bSiPalabraActionPerformed
+
+    private void bNoPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoPalabraActionPerformed
+        bRegPalabra.setVisible(false);
+    }//GEN-LAST:event_bNoPalabraActionPerformed
 
     /**
      * @param args the command line arguments
