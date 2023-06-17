@@ -8,7 +8,7 @@ public class Partida {
 
     // Atributos
     private Jugador perdedor, ganador, jugador1, jugador2;
-    private List<Palabra> palabras;
+    private ArrayList<Palabra> palabras;
     private int turno;
     private String palabraAdivinar;
     private String palabraMostrada;
@@ -17,14 +17,13 @@ public class Partida {
     private List<Intento> intentosJ1, intentosJ2; //Lista de intentos para cada jugador
 
     // Constructor
-    public Partida(List<String> palabras, Jugador jugador1, Jugador jugador2, String palabraAdivinar) {
-        this.palabras = palabras.stream()
-                .map(Palabra::new)
-                .collect(Collectors.toList());
+    public Partida(List<Palabra> palabras, Jugador jugador1, Jugador jugador2) {
+        this.palabras = new ArrayList<>();
+        for (String palabra : palabras) {
+            this.palabras.add(new Palabra(palabra));
+        }
         this.jugador1 = jugador1;
         this.jugador2 = jugador2 != null ? jugador2 : null;
-        this.palabraAdivinar = palabraAdivinar.toLowerCase();
-        this.palabraMostrada = new String(new char[palabraAdivinar.length()]).replace('\0', '_');
 
         ganador = null;
         perdedor = null;
@@ -32,12 +31,13 @@ public class Partida {
         entrenamiento = jugador2 == null;
 
         intentosJ1 = new ArrayList<>();
-        for (int i = 0; i < palabras.size(); i++) {
+        for (int i = 0; i < this.palabras.size(); i++) {
             intentosJ1.add(new Intento());
         }
+
         if (!entrenamiento) {
             intentosJ2 = new ArrayList<>();
-            for (int i = 0; i < palabras.size(); i++) {
+            for (int i = 0; i < this.palabras.size(); i++) {
                 intentosJ2.add(new Intento());
             }
         }
@@ -219,7 +219,7 @@ public class Partida {
         return palabras;
     }
 
-    public void setPalabras(List<Palabra> palabras) {
+    public void setPalabras(ArrayList<Palabra> palabras) {
         this.palabras = palabras;
     }
 

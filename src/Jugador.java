@@ -14,6 +14,12 @@ public class Jugador implements Comparable<Jugador>{
         puntos = 0;
         estadisticas = new Estadisticas();
     }
+    
+    public Jugador() {
+        nombreUsuario = "Sin definir";
+        puntos = 0;
+        estadisticas = new Estadisticas();
+    }
 
     //Getters y Setters
     public String getNombreUsuario() {

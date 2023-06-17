@@ -4,11 +4,21 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 public class Interfaz extends javax.swing.JFrame {
 
     private Administrador admin;
+    //private Partida partida;
+    private Jugador j1, j2;
+    private ArrayList<Palabra> palabras;
 
     public Interfaz() {
         initComponents();
@@ -22,6 +32,10 @@ public class Interfaz extends javax.swing.JFrame {
         pInfoPartidas.setVisible(false);
         pRankings.setVisible(false);
         admin = new Administrador();
+        j1 = new Jugador();
+        j2 = new Jugador();
+        palabras = new ArrayList<Palabra>();
+        //partida = new Partida(palabras, j1, j2);
     }
 
     @SuppressWarnings("unchecked")
@@ -98,13 +112,13 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         tNPalabras = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        bSiLetra = new javax.swing.JRadioButton();
-        bNoLetra = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
-        bSiPalabra = new javax.swing.JRadioButton();
-        bNoPalabra = new javax.swing.JRadioButton();
         pVolverParam = new javax.swing.JButton();
         bGuardarCambios = new javax.swing.JButton();
+        bSiPalabra = new javax.swing.JRadioButton();
+        bNoLetra = new javax.swing.JRadioButton();
+        bNoPalabra = new javax.swing.JRadioButton();
+        bSiLetra = new javax.swing.JRadioButton();
         pFichPalabras = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -709,45 +723,9 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel17.setText("Escribe el número de palabras por partida:");
 
-        tNPalabras.setText("5");
-
         jLabel18.setText("¿Quieres que exista la pista de letra en las partidas?");
 
-        grupoLetra.add(bSiLetra);
-        bSiLetra.setSelected(true);
-        bSiLetra.setText("Sí");
-        bSiLetra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bSiLetraActionPerformed(evt);
-            }
-        });
-
-        grupoLetra.add(bNoLetra);
-        bNoLetra.setText("No");
-        bNoLetra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNoLetraActionPerformed(evt);
-            }
-        });
-
         jLabel19.setText("¿Quieres que exista la pista de palabra en las partidas?");
-
-        grupoPalabra.add(bSiPalabra);
-        bSiPalabra.setSelected(true);
-        bSiPalabra.setText("Sí");
-        bSiPalabra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bSiPalabraActionPerformed(evt);
-            }
-        });
-
-        grupoPalabra.add(bNoPalabra);
-        bNoPalabra.setText("No");
-        bNoPalabra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNoPalabraActionPerformed(evt);
-            }
-        });
 
         pVolverParam.setText("Volver");
         pVolverParam.addActionListener(new java.awt.event.ActionListener() {
@@ -763,23 +741,41 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        grupoPalabra.add(bSiPalabra);
+        bSiPalabra.setSelected(true);
+        bSiPalabra.setText("Sí");
+
+        grupoLetra.add(bNoLetra);
+        bNoLetra.setText("No");
+
+        grupoPalabra.add(bNoPalabra);
+        bNoPalabra.setText("No");
+
+        grupoLetra.add(bSiLetra);
+        bSiLetra.setSelected(true);
+        bSiLetra.setText("Sí");
+
         javax.swing.GroupLayout pParametrosLayout = new javax.swing.GroupLayout(pParametros);
         pParametros.setLayout(pParametrosLayout);
         pParametrosLayout.setHorizontalGroup(
             pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                        .addComponent(bGuardarCambios)
+                        .addGap(197, 197, 197))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                        .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16)
+                            .addComponent(bNoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pParametrosLayout.createSequentialGroup()
+                                .addComponent(bSiPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                                .addComponent(bNoPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(89, 89, 89))))
             .addGroup(pParametrosLayout.createSequentialGroup()
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(pParametrosLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(bSiPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(61, 61, 61)
-                            .addComponent(bNoPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pParametrosLayout.createSequentialGroup()
-                            .addGap(95, 95, 95)
-                            .addComponent(bSiLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(63, 63, 63)
-                            .addComponent(bNoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pParametrosLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -789,17 +785,11 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(tNPalabras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel19)
-                            .addComponent(pVolverParam))))
+                            .addComponent(pVolverParam)))
+                    .addGroup(pParametrosLayout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(bSiLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
-                .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(89, 89, 89))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                        .addComponent(bGuardarCambios)
-                        .addGap(197, 197, 197))))
         );
         pParametrosLayout.setVerticalGroup(
             pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -812,11 +802,11 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(tNPalabras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSiLetra)
                     .addComponent(bNoLetra))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel19)
                 .addGap(18, 18, 18)
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1074,6 +1064,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void bJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bJugadorActionPerformed
         pOpcionesJuego.setVisible(true);
         pInicio.setVisible(false);
+        cargarNombresJugadores(nombreJ1);
+        cargarNombresJugadores(nombreJ2);
     }//GEN-LAST:event_bJugadorActionPerformed
 
     private void bSalirPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirPartidaActionPerformed
@@ -1146,10 +1138,21 @@ public class Interfaz extends javax.swing.JFrame {
     private void bParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bParametrosActionPerformed
         pParametros.setVisible(true);
         pOpcionesAdmin.setVisible(false);
+        int nPalabras = palabras.size();
+        tNPalabras.setText(Integer.toString(nPalabras));
     }//GEN-LAST:event_bParametrosActionPerformed
 
     private void bGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuardarCambiosActionPerformed
-        // TODO add your handling code here:
+        boolean siLetra = bSiLetra.isSelected();
+        boolean siPalabra = bSiPalabra.isSelected();
+
+        bRegLetra.setEnabled(siLetra);
+        bRegLetraEntrenamiento.setEnabled(siLetra);
+        bRegPalabra.setEnabled(siPalabra);
+        bRegPalabraEntrenamiento.setEnabled(siPalabra);
+        JOptionPane.showMessageDialog(this, "Cambios realizados.", "Info", JOptionPane.INFORMATION_MESSAGE);
+        pOpcionesAdmin.setVisible(true);
+        pParametros.setVisible(false);
     }//GEN-LAST:event_bGuardarCambiosActionPerformed
 
     private void pVolverFichPalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverFichPalActionPerformed
@@ -1202,26 +1205,6 @@ public class Interfaz extends javax.swing.JFrame {
         pOpcionesAdmin.setVisible(false);
     }//GEN-LAST:event_bRankingActionPerformed
 
-    private void bSiLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiLetraActionPerformed
-        bRegLetra.setVisible(true);
-        bRegLetraEntrenamiento.setVisible(true);
-    }//GEN-LAST:event_bSiLetraActionPerformed
-
-    private void bNoLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoLetraActionPerformed
-        bRegLetra.setVisible(false);
-        bRegLetraEntrenamiento.setVisible(false);
-    }//GEN-LAST:event_bNoLetraActionPerformed
-
-    private void bSiPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiPalabraActionPerformed
-        bRegPalabra.setVisible(true);
-        bRegPalabraEntrenamiento.setVisible(true);
-    }//GEN-LAST:event_bSiPalabraActionPerformed
-
-    private void bNoPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoPalabraActionPerformed
-        bRegPalabra.setVisible(false);
-        bRegPalabraEntrenamiento.setVisible(false);
-    }//GEN-LAST:event_bNoPalabraActionPerformed
-
     private void bDarAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDarAltaActionPerformed
         String nJugador = tJAltaYBaja.getText();
         if (tJAltaYBaja.getText().isEmpty()) {
@@ -1257,7 +1240,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_bDarBajaActionPerformed
 
     private void bRankPuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankPuntosActionPerformed
-        //admin.crearRankingPuntos();
+        admin.crearRankingPuntos();
     }//GEN-LAST:event_bRankPuntosActionPerformed
 
     /**
@@ -1392,4 +1375,36 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField tPalabraMulti;
     private javax.swing.JLabel turnoJugador;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarNombresJugadores(JComboBox<String> comboBox) {
+        // Obtener la ruta del archivo de jugadores
+        Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
+
+        // Verificar si el archivo existe
+        if (!Files.exists(archivoJugadores)) {
+            JOptionPane.showMessageDialog(null, "El archivo de jugadores no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear una lista para almacenar los nombres de los jugadores
+        List<String> nombresJugadores = new ArrayList<>();
+
+        // Leer los nombres de los jugadores del archivo
+        try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                int indexDelimiter = line.indexOf(","); // Obtener índice de la primera coma
+                if (indexDelimiter != -1) {
+                    String nombre = line.substring("Nombre: ".length(), indexDelimiter).trim();
+                    nombresJugadores.add(nombre);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
+        }
+
+        // Agregar los nombres al modelo del JComboBox
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(nombresJugadores.toArray(new String[0]));
+        comboBox.setModel(comboBoxModel);
+    }
 }

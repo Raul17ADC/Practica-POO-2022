@@ -1,7 +1,6 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -208,7 +207,7 @@ public class Administrador {
         String fechaHoraActual = sdf.format(new Date());
 
         // Crear el nombre del archivo
-        String nombreArchivo = "Listado." + fechaHoraActual + ".txt";
+        String nombreArchivo = "rankings/Listado." + fechaHoraActual + ".txt";
 
         // Crear el archivo de jugadores
         Path archivoRanking = Paths.get(nombreArchivo);
@@ -224,8 +223,41 @@ public class Administrador {
         }
     }
 
-    /*
     public void crearRankingPuntos() {
+        // Obtener la ruta del archivo de jugadores
+        Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
+
+        // Verificar si el archivo existe
+        if (!Files.exists(archivoJugadores)) {
+            JOptionPane.showMessageDialog(null, "El archivo de jugadores no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear una lista para almacenar los jugadores leídos del archivo
+        List<Jugador> jugadores = new ArrayList<>();
+
+        // Leer los jugadores del archivo
+        try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Scanner scanner = new Scanner(line);
+                scanner.useDelimiter(",");
+                if (scanner.hasNext()) {
+                    String nombre = scanner.next().trim();
+                    if (scanner.hasNext()) {
+                        String puntosStr = scanner.next().trim();
+                        int puntos = Integer.parseInt(puntosStr.substring(puntosStr.indexOf(":") + 1).trim());
+                        Jugador jugador = new Jugador(nombre);
+                        jugador.setPuntos(puntos);
+                        jugadores.add(jugador);
+                    }
+                }
+                scanner.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
+        }
+
         // Ordenar los jugadores por sus puntos de mayor a menor
         Collections.sort(jugadores, (j1, j2) -> j2.getPuntos() - j1.getPuntos());
 
@@ -234,11 +266,11 @@ public class Administrador {
         String fechaHoraActual = sdf.format(new Date());
 
         // Crear el nombre del archivo
-        String nombreArchivo = "Ranking." + fechaHoraActual + ".txt";
+        String nombreArchivo = "rankings/Ranking." + fechaHoraActual + ".txt";
 
         // Crear el archivo de ranking
-        Path archivoRanking = Path.of(nombreArchivo);
-        try ( BufferedWriter writer = new BufferedWriter(new FileWriter(archivoRanking.toFile()))) {
+        Path archivoRanking = Paths.get(nombreArchivo);
+        try ( BufferedWriter writer = Files.newBufferedWriter(archivoRanking)) {
             // Escribir los datos de los jugadores en el archivo
             for (Jugador jugador : jugadores) {
                 writer.write(jugador.toString());
@@ -249,5 +281,4 @@ public class Administrador {
             throw new RuntimeException("Error al generar el archivo de ranking: " + e.getMessage());
         }
     }
-     */
 }
