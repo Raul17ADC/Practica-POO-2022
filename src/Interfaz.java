@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -16,9 +17,9 @@ import javax.swing.JOptionPane;
 public class Interfaz extends javax.swing.JFrame {
 
     private Administrador admin;
-    //private Partida partida;
-    private Jugador j1, j2;
-    private ArrayList<Palabra> palabras;
+    private Partida partida, partidaEntrenamiento;
+    private String j1, j2;
+    private ArrayList<Palabra> totalPalabras, palabrasPartida;
 
     public Interfaz() {
         initComponents();
@@ -32,10 +33,9 @@ public class Interfaz extends javax.swing.JFrame {
         pInfoPartidas.setVisible(false);
         pRankings.setVisible(false);
         admin = new Administrador();
-        j1 = new Jugador();
-        j2 = new Jugador();
-        palabras = new ArrayList<Palabra>();
-        //partida = new Partida(palabras, j1, j2);
+        totalPalabras = new ArrayList<>();
+        palabrasPartida = new ArrayList<>();
+        partida = new Partida(palabrasPartida, j1, j2);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,7 +64,6 @@ public class Interfaz extends javax.swing.JFrame {
         pPartidaMulti = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         bSalirPartida = new javax.swing.JButton();
-        turnoJugador = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tPalabraMulti = new javax.swing.JTextField();
         bResolver = new javax.swing.JButton();
@@ -76,6 +75,7 @@ public class Interfaz extends javax.swing.JFrame {
         tLetra4Multi = new javax.swing.JTextField();
         tLetra5Multi = new javax.swing.JTextField();
         tLetra1Multi = new javax.swing.JTextField();
+        turnoJ = new javax.swing.JLabel();
         pEntrenamiento = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         bSalirEntrenamiento = new javax.swing.JButton();
@@ -236,7 +236,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         nombreJ2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel12.setText("Escribe el nombre de un nuevo jugador:");
+        jLabel12.setText("Escribe jugador para entrenamiento:");
 
         javax.swing.GroupLayout pOpcionesJuegoLayout = new javax.swing.GroupLayout(pOpcionesJuego);
         pOpcionesJuego.setLayout(pOpcionesJuegoLayout);
@@ -314,8 +314,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        turnoJugador.setText("Turno del jugador jugador1:");
-
         jLabel9.setText("Escribe la palabra:");
 
         bResolver.setText("Resolver");
@@ -351,6 +349,8 @@ public class Interfaz extends javax.swing.JFrame {
         tLetra1Multi.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         tLetra1Multi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        turnoJ.setText("Turno del jugador:");
+
         javax.swing.GroupLayout pPartidaMultiLayout = new javax.swing.GroupLayout(pPartidaMulti);
         pPartidaMulti.setLayout(pPartidaMultiLayout);
         pPartidaMultiLayout.setHorizontalGroup(
@@ -372,12 +372,12 @@ public class Interfaz extends javax.swing.JFrame {
                         .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bSalirPartida)
                             .addGroup(pPartidaMultiLayout.createSequentialGroup()
-                                .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(turnoJugador, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pPartidaMultiLayout.createSequentialGroup()
+                                .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pPartidaMultiLayout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tPalabraMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(tPalabraMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(turnoJ))
                                 .addGap(18, 18, 18)
                                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bResolver)
@@ -402,8 +402,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(turnoJugador)
-                    .addComponent(puntosJug))
+                    .addComponent(puntosJug)
+                    .addComponent(turnoJ))
                 .addGap(18, 18, 18)
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -722,6 +722,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel16.setText("PARÁMETROS DEL JUEGO");
 
         jLabel17.setText("Escribe el número de palabras por partida:");
+
+        tNPalabras.setText("3");
 
         jLabel18.setText("¿Quieres que exista la pista de letra en las partidas?");
 
@@ -1066,6 +1068,7 @@ public class Interfaz extends javax.swing.JFrame {
         pInicio.setVisible(false);
         cargarNombresJugadores(nombreJ1);
         cargarNombresJugadores(nombreJ2);
+        cargarPalabrasDesdeArchivo();
     }//GEN-LAST:event_bJugadorActionPerformed
 
     private void bSalirPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirPartidaActionPerformed
@@ -1076,6 +1079,28 @@ public class Interfaz extends javax.swing.JFrame {
     private void bPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPartidaActionPerformed
         pPartidaMulti.setVisible(true);
         pOpcionesJuego.setVisible(false);
+        if (nombreJ1.getSelectedItem().equals(nombreJ2.getSelectedItem())) {
+            JOptionPane.showMessageDialog(this, "Elige dos jugadores distintos", "Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String nPalabras = tNPalabras.getText();
+            int num = Integer.parseInt(nPalabras);
+            Random random = new Random();
+            for (int i = 0; i < num; i++) {
+                int indiceAleatorio = random.nextInt(totalPalabras.size());
+                Palabra palabraSeleccionada = totalPalabras.get(indiceAleatorio);
+                palabrasPartida.add(palabraSeleccionada);
+                totalPalabras.remove(indiceAleatorio);
+            }
+            Jugador jugador1 = new Jugador((String) nombreJ1.getSelectedItem());
+            Jugador jugador2 = new Jugador((String) nombreJ2.getSelectedItem());
+            partida.setJugador1(jugador1);
+            partida.setJugador2(jugador2);
+            String nJ1 = partida.getJugador1().getNombreUsuario();
+            String nJ2 = partida.getJugador2().getNombreUsuario();
+            turnoJ.setText("Turno del jugador " + nJ1 + ":");
+
+            //turnoJ.setText("Turno del jugador " + nJ2 + ":");
+        }
     }//GEN-LAST:event_bPartidaActionPerformed
 
     private void bEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEntrenamientoActionPerformed
@@ -1138,7 +1163,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void bParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bParametrosActionPerformed
         pParametros.setVisible(true);
         pOpcionesAdmin.setVisible(false);
-        int nPalabras = palabras.size();
+        int nPalabras = totalPalabras.size();
         tNPalabras.setText(Integer.toString(nPalabras));
     }//GEN-LAST:event_bParametrosActionPerformed
 
@@ -1373,7 +1398,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField tNombreJNuevo;
     private javax.swing.JTextField tPalabraEntrenamiento;
     private javax.swing.JTextField tPalabraMulti;
-    private javax.swing.JLabel turnoJugador;
+    private javax.swing.JLabel turnoJ;
     // End of variables declaration//GEN-END:variables
 
     private void cargarNombresJugadores(JComboBox<String> comboBox) {
@@ -1406,5 +1431,20 @@ public class Interfaz extends javax.swing.JFrame {
         // Agregar los nombres al modelo del JComboBox
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(nombresJugadores.toArray(new String[0]));
         comboBox.setModel(comboBoxModel);
+    }
+
+    private void cargarPalabrasDesdeArchivo() {
+        String rutaArchivo = "ficheros/palabras.txt";
+
+        try ( BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
+            String palabra;
+            while ((palabra = reader.readLine()) != null) {
+                Palabra nuevaPalabra = new Palabra(palabra);
+                totalPalabras.add(nuevaPalabra);
+            }
+        } catch (IOException e) {
+            // Manejar el error de lectura del archivo
+            e.printStackTrace();
+        }
     }
 }

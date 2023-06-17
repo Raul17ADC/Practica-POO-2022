@@ -144,24 +144,24 @@ public class Administrador {
                 .collect(Collectors.toList());
         // Elegir una palabra al azar
         String palabraAdivinar = palabrasJuego.get(new Random().nextInt(palabrasJuego.size()));
-        Partida partida = new Partida(palabrasJuego, jugador1, jugador2, palabraAdivinar);
-        partidas.add(partida);
-        partida.jugar();
+        //Partida partida = new Partida(palabrasJuego, jugador1, jugador2, palabraAdivinar);
+        //partidas.add(partida);
+        //partida.jugar();
     }
 
-    public void obtenerInformacionCompletaPartidas() {
-        for (Partida partida : partidas) {
-            System.out.println("Partida:");
-            System.out.println("Jugador 1: " + partida.getJugador1().getNombreUsuario());
-            System.out.println("Jugador 2: " + partida.getJugador2().getNombreUsuario());
-            System.out.println("Palabra oculta: " + partida.getPalabras());
-            System.out.println("Intentos jugador 1: " + partida.getIntentosJ1());
-            System.out.println("Intentos jugador 2: " + partida.getIntentosJ2());
-            //   System.out.println("Pistas utilizadas jugador 1: " + partida.getIntentoj1().getPistasUtilizadas());
-            //   System.out.println("Pistas utilizadas jugador 2: " + partida.getIntentoj2().getPistasUtilizadas());
-            System.out.println("--------------");
-        }
-    }
+//    public void obtenerInformacionCompletaPartidas() {
+//        for (Partida partida : partidas) {
+//            System.out.println("Partida:");
+//            System.out.println("Jugador 1: " + partida.getJugador1().getNombreUsuario());
+//            System.out.println("Jugador 2: " + partida.getJugador2().getNombreUsuario());
+//            System.out.println("Palabra oculta: " + partida.getPalabras());
+//            System.out.println("Intentos jugador 1: " + partida.getIntentosJ1());
+//            System.out.println("Intentos jugador 2: " + partida.getIntentosJ2());
+//            //   System.out.println("Pistas utilizadas jugador 1: " + partida.getIntentoj1().getPistasUtilizadas());
+//            //   System.out.println("Pistas utilizadas jugador 2: " + partida.getIntentoj2().getPistasUtilizadas());
+//            System.out.println("--------------");
+//        }
+//    }
 
     public void crearRankingAlfabetico() {
         // Obtener la ruta del archivo de jugadores

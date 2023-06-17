@@ -1,58 +1,42 @@
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Partida {
 
     // Atributos
     private Jugador perdedor, ganador, jugador1, jugador2;
-    private ArrayList<Palabra> palabras;
+    private ArrayList<Palabra> palabrasPartida;
     private int turno;
     private String palabraAdivinar;
     private String palabraMostrada;
     private boolean entrenamiento;
 
-    private List<Intento> intentosJ1, intentosJ2; //Lista de intentos para cada jugador
-
     // Constructor
-    public Partida(List<Palabra> palabras, Jugador jugador1, Jugador jugador2) {
-        this.palabras = new ArrayList<>();
-        for (String palabra : palabras) {
-            this.palabras.add(new Palabra(palabra));
-        }
-        this.jugador1 = jugador1;
-        this.jugador2 = jugador2 != null ? jugador2 : null;
-
+    public Partida(ArrayList<Palabra> palabrasPartida, String jugador1, String jugador2) {
+        this.palabrasPartida = new ArrayList<>();
+        this.jugador1 = new Jugador(jugador1);
+        this.jugador2 = new Jugador(jugador2);
         ganador = null;
         perdedor = null;
         turno = 1;
-        entrenamiento = jugador2 == null;
+    }
 
-        intentosJ1 = new ArrayList<>();
-        for (int i = 0; i < this.palabras.size(); i++) {
-            intentosJ1.add(new Intento());
-        }
-
-        if (!entrenamiento) {
-            intentosJ2 = new ArrayList<>();
-            for (int i = 0; i < this.palabras.size(); i++) {
-                intentosJ2.add(new Intento());
-            }
-        }
+    public Partida(ArrayList<Palabra> palabrasPartida, String jugador1) {
+        this.palabrasPartida = new ArrayList<>();
+        this.jugador1 = new Jugador(jugador1);
+        ganador = null;
+        perdedor = null;
+        turno = 1;
+        entrenamiento = true;
     }
 
     // Métodos
-    public void acertarPalabra(int index, Jugador j) {
-        if (turno == 1) {
-            int intentos = intentosJ1.get(index).getNumIntento();
-            jugador1.setPuntos(jugador1.getPuntos() + (6 - intentos));
-        } else {
-            int intentos = intentosJ2.get(index).getNumIntento();
-            jugador2.setPuntos(jugador2.getPuntos() + (6 - intentos));
+    public void acertarPalabra(int intento, Jugador j) {
+        if (intento < Intento.getMAXNUMINTENTOS()) {
+            int puntos = 6 - intento;
+            j.setPuntos(j.getPuntos() + puntos);
+            cambiarTurno();
         }
-        cambiarTurno();
     }
 
     public boolean esPalabraCorrecta(String palabraIntroducida) {
@@ -96,57 +80,56 @@ public class Partida {
         return this.palabraAdivinar.indexOf(letraIntroducida) >= 0;
     }
 
-    public void jugar() {
-        jugador1.setPuntos(0);
-        jugador2.setPuntos(0);
-        Scanner scanner = new Scanner(System.in);
-
-        for (Palabra palabra : this.palabras) {
-            int intentosRestantes = 5;
-            PistaLetra pistaLetra = new PistaLetra(palabra);
-            PistaPalabra pistaPalabra = new PistaPalabra(palabra);
-            Jugador jugadorActual = this.getTurno() == 1 ? jugador1 : jugador2;
-
-            while (intentosRestantes > 0) {
-                System.out.println("Intentos restantes: " + intentosRestantes);
-                System.out.println("Palabra actual: " + palabraMostrada);
-                System.out.println("Introduce tu propuesta o escribe 'letra' para regalo de letra o 'palabra' para regalo de palabra:");
-
-                String input = scanner.nextLine();
-
-                if (input.equalsIgnoreCase("letra")) {
-                    try {
-                        pistaLetra.comprarPista(jugadorActual);
-                    } catch (IllegalArgumentException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                } else if (input.equalsIgnoreCase("palabra")) {
-                    try {
-                        pistaPalabra.comprarPista(jugadorActual);
-                    } catch (IllegalArgumentException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                } else if (esPalabraCorrecta(input)) {
-                    System.out.println("¡Correcto! La palabra es '" + palabraAdivinar + "'");
-                    acertarPalabra(palabras.indexOf(palabra), jugadorActual);
-                    break;
-                } else {
-                    System.out.println(comprobarLetra(input.charAt(0)));
-                    intentosRestantes--;
-                }
-            }
-            if (intentosRestantes == 0) {
-                System.out.println("Se te acabaron los intentos. La palabra era '" + palabraAdivinar + "'");
-                cambiarTurno();
-            }
-        }
-
-        determinarGanador();
-        terminarPartida();
-        scanner.close();
-
-    }
-
+//    public void jugar() {
+//        jugador1.setPuntos(0);
+//        jugador2.setPuntos(0);
+//        Scanner scanner = new Scanner(System.in);
+//
+//        for (Palabra palabra : this.palabras) {
+//            int intentosRestantes = 5;
+//            PistaLetra pistaLetra = new PistaLetra(palabra);
+//            PistaPalabra pistaPalabra = new PistaPalabra(palabra);
+//            Jugador jugadorActual = this.getTurno() == 1 ? jugador1 : jugador2;
+//
+//            while (intentosRestantes > 0) {
+//                System.out.println("Intentos restantes: " + intentosRestantes);
+//                System.out.println("Palabra actual: " + palabraMostrada);
+//                System.out.println("Introduce tu propuesta o escribe 'letra' para regalo de letra o 'palabra' para regalo de palabra:");
+//
+//                String input = scanner.nextLine();
+//
+//                if (input.equalsIgnoreCase("letra")) {
+//                    try {
+//                        pistaLetra.comprarPista(jugadorActual);
+//                    } catch (IllegalArgumentException ex) {
+//                        System.out.println(ex.getMessage());
+//                    }
+//                } else if (input.equalsIgnoreCase("palabra")) {
+//                    try {
+//                        pistaPalabra.comprarPista(jugadorActual);
+//                    } catch (IllegalArgumentException ex) {
+//                        System.out.println(ex.getMessage());
+//                    }
+//                } else if (esPalabraCorrecta(input)) {
+//                    System.out.println("¡Correcto! La palabra es '" + palabraAdivinar + "'");
+//                    acertarPalabra(palabras.indexOf(palabra), jugadorActual);
+//                    break;
+//                } else {
+//                    System.out.println(comprobarLetra(input.charAt(0)));
+//                    intentosRestantes--;
+//                }
+//            }
+//            if (intentosRestantes == 0) {
+//                System.out.println("Se te acabaron los intentos. La palabra era '" + palabraAdivinar + "'");
+//                cambiarTurno();
+//            }
+//        }
+//
+//        determinarGanador();
+//        terminarPartida();
+//        scanner.close();
+//
+//    }
     public void terminarPartida() {
         if ((ganador != null && perdedor != null) && !entrenamiento) { // En caso de que haya un empate
             ganador.getEstadisticas().setPartidasGanadas(ganador.getEstadisticas().getPartidasGanadas() + 1);
@@ -215,36 +198,19 @@ public class Partida {
         this.jugador2 = jugador2;
     }
 
-    public List<Palabra> getPalabras() {
-        return palabras;
-    }
-
-    public void setPalabras(ArrayList<Palabra> palabras) {
-        this.palabras = palabras;
-    }
-
+//    public List<Palabra> getPalabras() {
+//        return palabras;
+//    }
+//
+//    public void setPalabras(ArrayList<Palabra> palabras) {
+//        this.palabras = palabras;
+//    }
     public int getTurno() {
         return turno;
     }
 
     public void setTurno(int turno) {
         this.turno = turno;
-    }
-
-    public List<Intento> getIntentosJ1() {
-        return intentosJ1;
-    }
-
-    public void setIntentosJ1(List<Intento> intentosJ1) {
-        this.intentosJ1 = intentosJ1;
-    }
-
-    public List<Intento> getIntentosJ2() {
-        return intentosJ2;
-    }
-
-    public void setIntentosJ2(List<Intento> intentosJ2) {
-        this.intentosJ2 = intentosJ2;
     }
 
     // Cambia el turno del jugador

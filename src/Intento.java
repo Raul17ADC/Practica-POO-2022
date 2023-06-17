@@ -19,6 +19,10 @@ public class Intento {
         this.numIntento = numIntento;
     }
 
+    public static int getMAXNUMINTENTOS() {
+        return MAXNUMINTENTOS;
+    }
+
     // Método para incrementar el número de intentos
     public void incrementarIntento() {
         if (this.numIntento < MAXNUMINTENTOS) { //Comprueba si se ha alcanzado el número máximo de intentos
