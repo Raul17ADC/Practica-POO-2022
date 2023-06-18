@@ -1,7 +1,8 @@
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Palabra {
+public class Palabra implements Serializable{
 
     //Atributos
     private char[] letras;

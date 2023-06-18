@@ -1,12 +1,13 @@
 
 import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class Partida implements Serializable{
+public class Partida implements Serializable {
 
     // Atributos
     private Jugador perdedor, ganador, jugador1, jugador2, jugadorActual;
@@ -114,7 +115,7 @@ public class Partida implements Serializable{
         } else {
             intento.setNumIntento(0);
             intento.incrementarIntento();
-            JOptionPane.showMessageDialog(null, "Intentos: "+ (intento.getNumIntento()));
+            JOptionPane.showMessageDialog(null, "Intentos: " + (intento.getNumIntento()));
             cambiarTurno();
         }
     }
@@ -152,33 +153,32 @@ public class Partida implements Serializable{
                 this.ganador = jugador2;
                 this.perdedor = jugador1;
                 System.out.println("El ganador es " + jugador2.getNombreUsuario());
-            } 
+            }
         }
     }
 
     public void guardarDatosPartida(ArrayList<Palabra> palabrasPartida) {
         try {
-            FileOutputStream fileOut = new FileOutputStream("Wordle.dat", true);
-            BufferedOutputStream buff = new BufferedOutputStream(fileOut);
-            ObjectOutputStream objOut = new ObjectOutputStream(buff);
+            FileOutputStream fos = new FileOutputStream("Prueba.dat", true);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-            objOut.writeObject(jugador1.getNombreUsuario());
-            objOut.writeObject("Los puntos de " + jugador1.getNombreUsuario() + " son: " + jugador1.getPuntos());
-            objOut.writeObject(jugador2.getNombreUsuario());
-            objOut.writeObject("Los puntos de " + jugador2.getNombreUsuario() + " son: " + jugador2.getPuntos());
+            oos.writeObject(jugador1.getNombreUsuario());
+            oos.writeObject("Los puntos de " + jugador1.getNombreUsuario() + " son: " + jugador1.getPuntos());
+            oos.writeObject(jugador2.getNombreUsuario());
+            oos.writeObject("Los puntos de " + jugador2.getNombreUsuario() + " son: " + jugador2.getPuntos());
             if (ganador != null) {
-                objOut.writeObject("El ganador es: " + ganador.getNombreUsuario());
+                oos.writeObject("El ganador es: " + ganador.getNombreUsuario());
             }
-            objOut.writeObject("Las palabras ocultas de la partida han sido:");
+            oos.writeObject("Las palabras ocultas de la partida han sido:");
             for (Palabra palabra : palabrasPartida) {
-                objOut.writeObject(palabra.toString());
+                oos.writeObject(palabra.toString());
             }
-            objOut.writeObject("El numero de intentos totales de la partida han sido: " + intentos);
+            oos.writeObject("El numero de intentos totales de la partida han sido: " + intentos);
 
-            objOut.close();
-            fileOut.close();
-
-            System.out.println("Los datos de la partida se han guardado correctamente en el archivo: wordle.dat");
+            oos.flush();
+            oos.close();
+            System.out.println("Los datos de la partida se han guardado correctamente en el archivo: Prueba.dat");
         } catch (Exception e) {
             System.out.println("Error al guardar los datos de la partida: " + e.getMessage());
         }
@@ -215,7 +215,7 @@ public class Partida implements Serializable{
     public void setIntento(Intento intento) {
         this.intento = intento;
     }
-    
+
     public int getTurno() {
         return turno;
     }

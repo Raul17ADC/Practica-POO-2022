@@ -1,37 +1,9 @@
 
 import java.awt.Color;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import jdk.jshell.execution.Util;
 
 public class Interfaz extends javax.swing.JFrame {
-
-    private Administrador admin;
-    private Partida partida, partidaEntrenamiento;
-    private String j1, j2;
-    private ArrayList<Palabra> totalPalabras, palabrasPartida;
-    private Palabra palabra;
-    private PistaLetra pistaL;
-    private PistaPalabra pistaP;
-
+    
     public Interfaz() {
         initComponents();
         pOpcionesJuego.setVisible(false);
@@ -43,16 +15,8 @@ public class Interfaz extends javax.swing.JFrame {
         pFichPalabras.setVisible(false);
         pInfoPartidas.setVisible(false);
         pRankings.setVisible(false);
-        admin = new Administrador();
-        totalPalabras = new ArrayList<>();
-        palabrasPartida = new ArrayList<>();
-        partida = new Partida(palabrasPartida, j1, j2);
-        palabra = new Palabra("");
-        pistaL = new PistaLetra(null);
-        pistaP = new PistaPalabra(null);
-
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,6 +43,7 @@ public class Interfaz extends javax.swing.JFrame {
         pPartidaMulti = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         bSalirPartida = new javax.swing.JButton();
+        turnoJugador = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tPalabraMulti = new javax.swing.JTextField();
         bResolver = new javax.swing.JButton();
@@ -90,7 +55,6 @@ public class Interfaz extends javax.swing.JFrame {
         tLetra4Multi = new javax.swing.JTextField();
         tLetra5Multi = new javax.swing.JTextField();
         tLetra1Multi = new javax.swing.JTextField();
-        turnoJ = new javax.swing.JLabel();
         pEntrenamiento = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         bSalirEntrenamiento = new javax.swing.JButton();
@@ -119,21 +83,21 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         pVolverAltaYBaja = new javax.swing.JButton();
-        bDarAlta = new javax.swing.JButton();
-        bDarBaja = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         tJAltaYBaja = new javax.swing.JTextField();
         pParametros = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         tNPalabras = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
+        bSiLetra = new javax.swing.JRadioButton();
+        bNoLetra = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
+        bSiPalabra = new javax.swing.JRadioButton();
+        bNoPalabra = new javax.swing.JRadioButton();
         pVolverParam = new javax.swing.JButton();
         bGuardarCambios = new javax.swing.JButton();
-        bSiPalabra = new javax.swing.JRadioButton();
-        bNoLetra = new javax.swing.JRadioButton();
-        bNoPalabra = new javax.swing.JRadioButton();
-        bSiLetra = new javax.swing.JRadioButton();
         pFichPalabras = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -155,7 +119,6 @@ public class Interfaz extends javax.swing.JFrame {
         bRankAlfabetico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(520, 440));
         setResizable(false);
 
         pInicio.setPreferredSize(new java.awt.Dimension(500, 400));
@@ -251,7 +214,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         nombreJ2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel12.setText("Escribe jugador para entrenamiento:");
+        jLabel12.setText("Escribe el nombre de un nuevo jugador:");
 
         javax.swing.GroupLayout pOpcionesJuegoLayout = new javax.swing.GroupLayout(pOpcionesJuego);
         pOpcionesJuego.setLayout(pOpcionesJuegoLayout);
@@ -329,6 +292,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        turnoJugador.setText("Turno del jugador jugador1:");
+
         jLabel9.setText("Escribe la palabra:");
 
         bResolver.setText("Resolver");
@@ -341,18 +306,8 @@ public class Interfaz extends javax.swing.JFrame {
         puntosJug.setText("Puntos disponibles: 50");
 
         bRegLetra.setText("Regalo de letra");
-        bRegLetra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRegLetraActionPerformed(evt);
-            }
-        });
 
         bRegPalabra.setText("Regalo de palabra");
-        bRegPalabra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRegPalabraActionPerformed(evt);
-            }
-        });
 
         tLetra2Multi.setEditable(false);
         tLetra2Multi.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -373,8 +328,6 @@ public class Interfaz extends javax.swing.JFrame {
         tLetra1Multi.setEditable(false);
         tLetra1Multi.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         tLetra1Multi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        turnoJ.setText("Turno del jugador:");
 
         javax.swing.GroupLayout pPartidaMultiLayout = new javax.swing.GroupLayout(pPartidaMulti);
         pPartidaMulti.setLayout(pPartidaMultiLayout);
@@ -397,12 +350,12 @@ public class Interfaz extends javax.swing.JFrame {
                         .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bSalirPartida)
                             .addGroup(pPartidaMultiLayout.createSequentialGroup()
-                                .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pPartidaMultiLayout.createSequentialGroup()
+                                .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(turnoJugador, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pPartidaMultiLayout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tPalabraMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(turnoJ))
+                                        .addComponent(tPalabraMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bResolver)
@@ -427,8 +380,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(puntosJug)
-                    .addComponent(turnoJ))
+                    .addComponent(turnoJugador)
+                    .addComponent(puntosJug))
                 .addGap(18, 18, 18)
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -465,50 +418,25 @@ public class Interfaz extends javax.swing.JFrame {
 
         entrenamientoJug.setText("Entrenamiento del jugador jugador1:");
 
-        puntosJugEntrenamiento.setText("Puntos disponibles: 5");
+        puntosJugEntrenamiento.setText("Puntos disponibles: 50");
 
         jLabel10.setText("Escribe la palabra:");
 
         bResolverEntrenamiento.setText("Resolver");
-        bResolverEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bResolverEntrenamientoActionPerformed(evt);
-            }
-        });
 
         bRegLetraEntrenamiento.setText("Regalo de letra");
-        bRegLetraEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRegLetraEntrenamientoActionPerformed(evt);
-            }
-        });
 
         bRegPalabraEntrenamiento.setText("Regalo de palabra");
-        bRegPalabraEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRegPalabraEntrenamientoActionPerformed(evt);
-            }
-        });
 
         tLetra2Solo.setEditable(false);
-        tLetra2Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tLetra2Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra5Solo.setEditable(false);
-        tLetra5Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tLetra5Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra4Solo.setEditable(false);
-        tLetra4Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tLetra4Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra3Solo.setEditable(false);
-        tLetra3Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tLetra3Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra1Solo.setEditable(false);
-        tLetra1Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tLetra1Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout pEntrenamientoLayout = new javax.swing.GroupLayout(pEntrenamiento);
         pEntrenamiento.setLayout(pEntrenamientoLayout);
@@ -705,19 +633,9 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        bDarAlta.setText("Dar de alta al jugador");
-        bDarAlta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDarAltaActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Dar de alta al jugador");
 
-        bDarBaja.setText("Dar de baja al jugador");
-        bDarBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDarBajaActionPerformed(evt);
-            }
-        });
+        jButton2.setText("Dar de baja al jugador");
 
         javax.swing.GroupLayout pAltaYBajaLayout = new javax.swing.GroupLayout(pAltaYBaja);
         pAltaYBaja.setLayout(pAltaYBajaLayout);
@@ -740,10 +658,10 @@ public class Interfaz extends javax.swing.JFrame {
                         .addContainerGap(174, Short.MAX_VALUE))
                     .addGroup(pAltaYBajaLayout.createSequentialGroup()
                         .addGroup(pAltaYBajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(bDarAlta)
+                            .addComponent(jButton1)
                             .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bDarBaja)
+                        .addComponent(jButton2)
                         .addGap(89, 89, 89))))
         );
         pAltaYBajaLayout.setVerticalGroup(
@@ -759,8 +677,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel15)
                 .addGap(39, 39, 39)
                 .addGroup(pAltaYBajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bDarAlta)
-                    .addComponent(bDarBaja))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(pVolverAltaYBaja)
                 .addContainerGap())
@@ -773,16 +691,45 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel17.setText("Escribe el número de palabras por partida:");
 
-        tNPalabras.setText("4");
-        tNPalabras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tNPalabrasActionPerformed(evt);
-            }
-        });
+        tNPalabras.setText("5");
 
         jLabel18.setText("¿Quieres que exista la pista de letra en las partidas?");
 
+        grupoLetra.add(bSiLetra);
+        bSiLetra.setSelected(true);
+        bSiLetra.setText("Sí");
+        bSiLetra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSiLetraActionPerformed(evt);
+            }
+        });
+
+        grupoLetra.add(bNoLetra);
+        bNoLetra.setText("No");
+        bNoLetra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNoLetraActionPerformed(evt);
+            }
+        });
+
         jLabel19.setText("¿Quieres que exista la pista de palabra en las partidas?");
+
+        grupoPalabra.add(bSiPalabra);
+        bSiPalabra.setSelected(true);
+        bSiPalabra.setText("Sí");
+        bSiPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSiPalabraActionPerformed(evt);
+            }
+        });
+
+        grupoPalabra.add(bNoPalabra);
+        bNoPalabra.setText("No");
+        bNoPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNoPalabraActionPerformed(evt);
+            }
+        });
 
         pVolverParam.setText("Volver");
         pVolverParam.addActionListener(new java.awt.event.ActionListener() {
@@ -798,41 +745,23 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        grupoPalabra.add(bSiPalabra);
-        bSiPalabra.setSelected(true);
-        bSiPalabra.setText("Sí");
-
-        grupoLetra.add(bNoLetra);
-        bNoLetra.setText("No");
-
-        grupoPalabra.add(bNoPalabra);
-        bNoPalabra.setText("No");
-
-        grupoLetra.add(bSiLetra);
-        bSiLetra.setSelected(true);
-        bSiLetra.setText("Sí");
-
         javax.swing.GroupLayout pParametrosLayout = new javax.swing.GroupLayout(pParametros);
         pParametros.setLayout(pParametrosLayout);
         pParametrosLayout.setHorizontalGroup(
             pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                        .addComponent(bGuardarCambios)
-                        .addGap(197, 197, 197))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
-                        .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel16)
-                            .addComponent(bNoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pParametrosLayout.createSequentialGroup()
-                                .addComponent(bSiPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
-                                .addComponent(bNoPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(89, 89, 89))))
             .addGroup(pParametrosLayout.createSequentialGroup()
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pParametrosLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(bSiPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(61, 61, 61)
+                            .addComponent(bNoPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pParametrosLayout.createSequentialGroup()
+                            .addGap(95, 95, 95)
+                            .addComponent(bSiLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(63, 63, 63)
+                            .addComponent(bNoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pParametrosLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -842,11 +771,17 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(tNPalabras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel19)
-                            .addComponent(pVolverParam)))
-                    .addGroup(pParametrosLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(bSiLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(pVolverParam))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(89, 89, 89))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pParametrosLayout.createSequentialGroup()
+                        .addComponent(bGuardarCambios)
+                        .addGap(197, 197, 197))))
         );
         pParametrosLayout.setVerticalGroup(
             pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -859,11 +794,11 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(tNPalabras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jLabel18)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSiLetra)
                     .addComponent(bNoLetra))
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel19)
                 .addGap(18, 18, 18)
                 .addGroup(pParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -994,11 +929,6 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel26.setText("Al seleccionar cualquiera de las opciones se creará un fichero de texto con el ranking.");
 
         bRankPuntos.setText("Ranking por puntuación");
-        bRankPuntos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRankPuntosActionPerformed(evt);
-            }
-        });
 
         pVolverRankings.setText("Volver");
         pVolverRankings.addActionListener(new java.awt.event.ActionListener() {
@@ -1121,9 +1051,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void bJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bJugadorActionPerformed
         pOpcionesJuego.setVisible(true);
         pInicio.setVisible(false);
-        cargarNombresJugadores(nombreJ1);
-        cargarNombresJugadores(nombreJ2);
-        cargarPalabrasDesdeArchivo();
     }//GEN-LAST:event_bJugadorActionPerformed
 
     private void bSalirPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirPartidaActionPerformed
@@ -1132,47 +1059,13 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_bSalirPartidaActionPerformed
 
     private void bPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPartidaActionPerformed
-        if (nombreJ1.getSelectedItem().equals(nombreJ2.getSelectedItem())) {
-            JOptionPane.showMessageDialog(this, "Elige dos jugadores distintos", "Error", JOptionPane.WARNING_MESSAGE);
-        } else {
-            pOpcionesJuego.setVisible(false);
-            pPartidaMulti.setVisible(true);
-            String nPalabras = tNPalabras.getText();
-            int num = Integer.parseInt(nPalabras);
-            Random random = new Random();
-            for (int i = 0; i < num; i++) {
-                int indiceAleatorio = random.nextInt(totalPalabras.size());
-                Palabra palabraSeleccionada = totalPalabras.get(indiceAleatorio);
-                palabrasPartida.add(palabraSeleccionada);
-                totalPalabras.remove(indiceAleatorio);
-            }
-            Jugador jugador1 = new Jugador((String) nombreJ1.getSelectedItem());
-            Jugador jugador2 = new Jugador((String) nombreJ2.getSelectedItem());
-            partida.setJugador1(jugador1);
-            partida.setJugador2(jugador2);
-            String nJ1 = partida.getJugador1().getNombreUsuario();
-            String nJ2 = partida.getJugador2().getNombreUsuario();
-            turnoJ.setText("Turno del jugador " + nJ1 + ":");
-            puntosJug.setText("Puntos disponibles: 5");
-            palabra = palabrasPartida.get(0);
-        }
+        pPartidaMulti.setVisible(true);
+        pOpcionesJuego.setVisible(false);
     }//GEN-LAST:event_bPartidaActionPerformed
 
     private void bEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEntrenamientoActionPerformed
         pEntrenamiento.setVisible(true);
         pOpcionesJuego.setVisible(false);
-        String nombre = tNombreJNuevo.getText();
-        entrenamientoJug.setText("Entrenamiento del jugador " + nombre + ":");
-        String nPalabras = tNPalabras.getText();
-        int num = Integer.parseInt(nPalabras);
-        Random random = new Random();
-        for (int i = 0; i < num; i++) {
-            int indiceAleatorio = random.nextInt(totalPalabras.size());
-            Palabra palabraSeleccionada = totalPalabras.get(indiceAleatorio);
-            palabrasPartida.add(palabraSeleccionada);
-            totalPalabras.remove(indiceAleatorio);
-        }
-        palabra = palabrasPartida.get(0);
     }//GEN-LAST:event_bEntrenamientoActionPerformed
 
     private void bSalirEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirEntrenamientoActionPerformed
@@ -1191,86 +1084,22 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverOpcAdminActionPerformed
 
     private void bResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResolverActionPerformed
-        Palabra pEscrita = new Palabra(tPalabraMulti.getText());
+        Palabra palabra = new Palabra(tPalabraMulti.getText());
         if (tPalabraMulti.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Escribe la palabra que quieres probar.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else if (pEscrita.getLetras().length != 5) {
+        } else if (palabra.getLetras().length != 5) {
             JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            tLetra1Multi.setText(Character.toString(pEscrita.getLetras()[0]).toUpperCase());
-            tLetra2Multi.setText(Character.toString(pEscrita.getLetras()[1]).toUpperCase());
-            tLetra3Multi.setText(Character.toString(pEscrita.getLetras()[2]).toUpperCase());
-            tLetra4Multi.setText(Character.toString(pEscrita.getLetras()[3]).toUpperCase());
-            tLetra5Multi.setText(Character.toString(pEscrita.getLetras()[4]).toUpperCase());
-            partida.jugar(palabra, tPalabraMulti.getText());
-
-            for (int i = 0; i < 5; i++) {
-                char letraPalabra = palabra.toString().charAt(i);
-                char letraEscrita = pEscrita.toString().charAt(i);
-                JTextField textField = null;
-
-                switch (i) {
-                    case 0:
-                        textField = tLetra1Multi;
-                        break;
-                    case 1:
-                        textField = tLetra2Multi;
-                        break;
-                    case 2:
-                        textField = tLetra3Multi;
-                        break;
-                    case 3:
-                        textField = tLetra4Multi;
-                        break;
-                    case 4:
-                        textField = tLetra5Multi;
-                        break;
-                    default:
-                        break;
-                }
-
-                if (letraEscrita == letraPalabra) {
-                    textField.setBackground(Color.GREEN);
-                } else if (palabra.toString().contains(String.valueOf(letraEscrita))) {
-                    textField.setBackground(Color.YELLOW);
-                } else {
-                    textField.setBackground(Color.WHITE);
-                }
-            }
-
-            tPalabraMulti.setText("");
-            if ((pEscrita.equals(palabra)) || (partida.getIntento().getNumIntento() == 5)) {
-                tLetra1Multi.setText("");
-                tLetra2Multi.setText("");
-                tLetra3Multi.setText("");
-                tLetra4Multi.setText("");
-                tLetra5Multi.setText("");
-                tLetra1Multi.setBackground(Color.WHITE);
-                tLetra2Multi.setBackground(Color.WHITE);
-                tLetra3Multi.setBackground(Color.WHITE);
-                tLetra4Multi.setBackground(Color.WHITE);
-                tLetra5Multi.setBackground(Color.WHITE);
-                String nJ1 = partida.getJugador1().getNombreUsuario();
-                String nJ2 = partida.getJugador2().getNombreUsuario();
-                if (turnoJ.getText().equals("Turno del jugador " + nJ1 + ":")) {
-                    turnoJ.setText("Turno del jugador " + nJ2 + ":");
-                    puntosJug.setText("Puntos disponibles: " + partida.getJugador2().getPuntos());
-                } else {
-                    turnoJ.setText("Turno del jugador " + nJ1 + ":");
-                    puntosJug.setText("Puntos disponibles: " + partida.getJugador1().getPuntos());
-                }
-                int index = palabrasPartida.indexOf(palabra);
-                if (index >= 0 && index < palabrasPartida.size() - 1) {
-                    palabra = palabrasPartida.get(index + 1);
-                } else {
-                    partida.determinarGanador();
-                    partida.terminarPartida();
-                    partida.guardarDatosPartida(palabrasPartida);
-                    JOptionPane.showMessageDialog(this, "¡Partida finalizada!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    pOpcionesJuego.setVisible(true);
-                    pPartidaMulti.setVisible(false);
-                }
-            }
+            tLetra1Multi.setText(String.valueOf(palabra.getLetras()[0]).toUpperCase());
+            tLetra1Multi.setBackground(Color.RED);
+            tLetra2Multi.setText(String.valueOf(palabra.getLetras()[1]).toUpperCase());
+            tLetra2Multi.setBackground(Color.GREEN);
+            tLetra3Multi.setText(String.valueOf(palabra.getLetras()[2]).toUpperCase());
+            tLetra3Multi.setBackground(Color.YELLOW);
+            tLetra4Multi.setText(String.valueOf(palabra.getLetras()[3]).toUpperCase());
+            tLetra4Multi.setBackground(Color.BLUE);
+            tLetra5Multi.setText(String.valueOf(palabra.getLetras()[4]).toUpperCase());
+            tLetra5Multi.setBackground(Color.WHITE);
         }
     }//GEN-LAST:event_bResolverActionPerformed
 
@@ -1295,22 +1124,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_bParametrosActionPerformed
 
     private void bGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuardarCambiosActionPerformed
-        boolean siLetra = bSiLetra.isSelected();
-        boolean siPalabra = bSiPalabra.isSelected();
-
-        bRegLetra.setEnabled(siLetra);
-        bRegLetraEntrenamiento.setEnabled(siLetra);
-        bRegPalabra.setEnabled(siPalabra);
-        bRegPalabraEntrenamiento.setEnabled(siPalabra);
-        String nPalabras = tNPalabras.getText();
-        int numero = Integer.parseInt(nPalabras);
-        if (numero % 2 != 0) {
-            JOptionPane.showMessageDialog(this, "El número de palabras debe ser par.", "Error", JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Cambios realizados.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            pOpcionesAdmin.setVisible(true);
-            pParametros.setVisible(false);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_bGuardarCambiosActionPerformed
 
     private void pVolverFichPalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverFichPalActionPerformed
@@ -1321,22 +1135,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void bFichPalabrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFichPalabrasActionPerformed
         pFichPalabras.setVisible(true);
         pOpcionesAdmin.setVisible(false);
-        String rutaArchivo = "palabras.txt";
-
-        try ( BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
-            StringBuilder contenido = new StringBuilder();
-            String linea;
-
-            while ((linea = reader.readLine()) != null) {
-                contenido.append(linea).append("\n");
-            }
-
-            tFichPalabras.setText(contenido.toString());
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_bFichPalabrasActionPerformed
 
     private void pVolverInfoPtdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverInfoPtdsActionPerformed
@@ -1345,26 +1143,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverInfoPtdsActionPerformed
 
     private void bInfoPartidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInfoPartidasActionPerformed
-        pOpcionesAdmin.setVisible(false);
         pInfoPartidas.setVisible(true);
-        try {
-            tInfoPtds.setText("");
-
-            File file = new File("Prueba.dat");
-            if (!file.exists() || file.length() == 0) {
-                System.out.println("El archivo Prueba.dat no contiene datos.");
-                return;
-            }
-
-            DataInputStream dataIn = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
-            while (dataIn.available() > 0) {
-                String data = dataIn.readUTF();
-                tInfoPtds.append(data + "\n");
-            }
-            dataIn.close();
-        } catch (Exception e) {
-            System.out.println("Error al leer los datos de la partida: " + e.getMessage());
-        }
+        pOpcionesAdmin.setVisible(false);
     }//GEN-LAST:event_bInfoPartidasActionPerformed
 
     private void pVolverRankingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverRankingsActionPerformed
@@ -1373,7 +1153,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverRankingsActionPerformed
 
     private void bRankAlfabeticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankAlfabeticoActionPerformed
-        admin.crearRankingAlfabetico();
+        // TODO add your handling code here:
     }//GEN-LAST:event_bRankAlfabeticoActionPerformed
 
     private void bRankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankingActionPerformed
@@ -1381,142 +1161,25 @@ public class Interfaz extends javax.swing.JFrame {
         pOpcionesAdmin.setVisible(false);
     }//GEN-LAST:event_bRankingActionPerformed
 
-    private void bDarAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDarAltaActionPerformed
-        String nJugador = tJAltaYBaja.getText();
-        if (tJAltaYBaja.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Escribe el nombre del jugador primero.", "Error", JOptionPane.WARNING_MESSAGE);
-        } else {
-            boolean nombreRepetido = admin.existeJugador(nJugador);
-            if (nombreRepetido) {
-                JOptionPane.showMessageDialog(this, "El nombre de jugador ya existe. Elige otro nombre.", "Error", JOptionPane.WARNING_MESSAGE);
-            } else {
-                try {
-                    admin.agregarNuevoJugador(nJugador);
-                    JOptionPane.showMessageDialog(this, "Jugador creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    tJAltaYBaja.setText("");
-                } catch (RuntimeException e) {
-                    JOptionPane.showMessageDialog(this, "Error al crear el jugador: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }//GEN-LAST:event_bDarAltaActionPerformed
+    private void bSiLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiLetraActionPerformed
+        bRegLetra.setVisible(true);
+        bRegLetraEntrenamiento.setVisible(true);
+    }//GEN-LAST:event_bSiLetraActionPerformed
 
-    private void bDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDarBajaActionPerformed
-        String nombreJugador = tJAltaYBaja.getText();
-        if (nombreJugador.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Escribe el nombre del jugador primero.", "Error", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-                admin.eliminarJugador(nombreJugador);
-                JOptionPane.showMessageDialog(this, "Jugador eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(this, "Error al eliminar el jugador: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_bDarBajaActionPerformed
+    private void bNoLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoLetraActionPerformed
+        bRegLetra.setVisible(false);
+        bRegLetraEntrenamiento.setVisible(false);
+    }//GEN-LAST:event_bNoLetraActionPerformed
 
-    private void bRankPuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankPuntosActionPerformed
-        admin.crearRankingPuntos();
-    }//GEN-LAST:event_bRankPuntosActionPerformed
+    private void bSiPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiPalabraActionPerformed
+        bRegPalabra.setVisible(true);
+        bRegPalabraEntrenamiento.setVisible(true);
+    }//GEN-LAST:event_bSiPalabraActionPerformed
 
-    private void bRegLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraActionPerformed
-        PistaLetra pLetra = new PistaLetra(palabra);
-        pLetra.comprarPista(partida.getJugadorActual());
-    }//GEN-LAST:event_bRegLetraActionPerformed
-
-    private void bResolverEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResolverEntrenamientoActionPerformed
-        Palabra pEscrita = new Palabra(tPalabraEntrenamiento.getText());
-        if (tPalabraEntrenamiento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Escribe la palabra que quieres probar.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else if (pEscrita.getLetras().length != 5) {
-            JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
-        } else {
-            tLetra1Solo.setText(Character.toString(pEscrita.getLetras()[0]).toUpperCase());
-            tLetra2Solo.setText(Character.toString(pEscrita.getLetras()[1]).toUpperCase());
-            tLetra3Solo.setText(Character.toString(pEscrita.getLetras()[2]).toUpperCase());
-            tLetra4Solo.setText(Character.toString(pEscrita.getLetras()[3]).toUpperCase());
-            tLetra5Solo.setText(Character.toString(pEscrita.getLetras()[4]).toUpperCase());
-            partida.jugar(palabra, tPalabraEntrenamiento.getText());
-
-            for (int i = 0; i < 5; i++) {
-                char letraPalabra = palabra.toString().charAt(i);
-                char letraEscrita = pEscrita.toString().charAt(i);
-                JTextField textField = null;
-
-                switch (i) {
-                    case 0:
-                        textField = tLetra1Solo;
-                        break;
-                    case 1:
-                        textField = tLetra2Solo;
-                        break;
-                    case 2:
-                        textField = tLetra3Solo;
-                        break;
-                    case 3:
-                        textField = tLetra4Solo;
-                        break;
-                    case 4:
-                        textField = tLetra5Solo;
-                        break;
-                    default:
-                        break;
-                }
-
-                if (letraEscrita == letraPalabra) {
-                    textField.setBackground(Color.GREEN);
-                } else if (palabra.toString().contains(String.valueOf(letraEscrita))) {
-                    textField.setBackground(Color.YELLOW);
-                } else {
-                    textField.setBackground(Color.WHITE);
-                }
-            }
-
-            tPalabraEntrenamiento.setText("");
-            if ((pEscrita.equals(palabra)) || (partida.getIntento().getNumIntento() == 5)) {
-                partida.getIntento().setNumIntento(0);
-                tLetra1Solo.setText("");
-                tLetra2Solo.setText("");
-                tLetra3Solo.setText("");
-                tLetra4Solo.setText("");
-                tLetra5Solo.setText("");
-                tLetra1Solo.setBackground(Color.WHITE);
-                tLetra2Solo.setBackground(Color.WHITE);
-                tLetra3Solo.setBackground(Color.WHITE);
-                tLetra4Solo.setBackground(Color.WHITE);
-                tLetra5Solo.setBackground(Color.WHITE);
-                String nJ1 = partida.getJugador1().getNombreUsuario();
-                puntosJugEntrenamiento.setText("Puntos disponibles: " + partida.getJugador1().getPuntos());
-                int index = palabrasPartida.indexOf(palabra);
-                if (index >= 0 && index < palabrasPartida.size() - 1) {
-                    palabra = palabrasPartida.get(index + 1);
-                } else {
-                    JOptionPane.showMessageDialog(this, "¡Partida finalizada!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    pOpcionesJuego.setVisible(true);
-                    pEntrenamiento.setVisible(false);
-                }
-            }
-        }
-    }//GEN-LAST:event_bResolverEntrenamientoActionPerformed
-
-    private void bRegPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegPalabraActionPerformed
-        PistaPalabra pistaP = new PistaPalabra(palabra);
-        pistaP.comprarPista(partida.getJugadorActual());
-    }//GEN-LAST:event_bRegPalabraActionPerformed
-
-    private void bRegLetraEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraEntrenamientoActionPerformed
-        PistaLetra pLetra = new PistaLetra(palabra);
-        pLetra.comprarPista(partida.getJugadorActual());
-    }//GEN-LAST:event_bRegLetraEntrenamientoActionPerformed
-
-    private void bRegPalabraEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegPalabraEntrenamientoActionPerformed
-        PistaPalabra pistaP = new PistaPalabra(palabra);
-        pistaP.comprarPista(partida.getJugadorActual());
-    }//GEN-LAST:event_bRegPalabraEntrenamientoActionPerformed
-
-    private void tNPalabrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tNPalabrasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tNPalabrasActionPerformed
+    private void bNoPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNoPalabraActionPerformed
+        bRegPalabra.setVisible(false);
+        bRegPalabraEntrenamiento.setVisible(false);
+    }//GEN-LAST:event_bNoPalabraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1555,8 +1218,6 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAdmin;
     private javax.swing.JButton bAltaBaja;
-    private javax.swing.JButton bDarAlta;
-    private javax.swing.JButton bDarBaja;
     private javax.swing.JButton bEntrenamiento;
     private javax.swing.JButton bFichPalabras;
     private javax.swing.JButton bGuardarCambios;
@@ -1583,6 +1244,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel entrenamientoJug;
     private javax.swing.ButtonGroup grupoLetra;
     private javax.swing.ButtonGroup grupoPalabra;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1648,53 +1311,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField tNombreJNuevo;
     private javax.swing.JTextField tPalabraEntrenamiento;
     private javax.swing.JTextField tPalabraMulti;
-    private javax.swing.JLabel turnoJ;
+    private javax.swing.JLabel turnoJugador;
     // End of variables declaration//GEN-END:variables
-
-    private void cargarNombresJugadores(JComboBox<String> comboBox) {
-        // Obtener la ruta del archivo de jugadores
-        Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
-
-        // Verificar si el archivo existe
-        if (!Files.exists(archivoJugadores)) {
-            JOptionPane.showMessageDialog(null, "El archivo de jugadores no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Crear una lista para almacenar los nombres de los jugadores
-        List<String> nombresJugadores = new ArrayList<>();
-
-        // Leer los nombres de los jugadores del archivo
-        try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                int indexDelimiter = line.indexOf(","); // Obtener índice de la primera coma
-                if (indexDelimiter != -1) {
-                    String nombre = line.substring("Nombre: ".length(), indexDelimiter).trim();
-                    nombresJugadores.add(nombre);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
-        }
-
-        // Agregar los nombres al modelo del JComboBox
-        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(nombresJugadores.toArray(new String[0]));
-        comboBox.setModel(comboBoxModel);
-    }
-
-    private void cargarPalabrasDesdeArchivo() {
-        String rutaArchivo = "ficheros/palabras.txt";
-
-        try ( BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
-            String palabra;
-            while ((palabra = reader.readLine()) != null) {
-                Palabra nuevaPalabra = new Palabra(palabra);
-                totalPalabras.add(nuevaPalabra);
-            }
-        } catch (IOException e) {
-            // Manejar el error de lectura del archivo
-            e.printStackTrace();
-        }
-    }
 }
