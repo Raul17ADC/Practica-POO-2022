@@ -1,11 +1,13 @@
 
+import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class Partida {
+public class Partida implements Serializable{
 
     // Atributos
     private Jugador perdedor, ganador, jugador1, jugador2, jugadorActual;
@@ -97,9 +99,7 @@ public class Partida {
             palabraAdivinar = palabra.toString();
             jugadorActual = this.getTurno() == 1 ? jugador1 : jugador2;
 
-            if (intento.getNumIntento() < 5) {
-                JOptionPane.showMessageDialog(null, "Intentos: " + (intento.getNumIntento() + 1));
-            }
+            JOptionPane.showMessageDialog(null, "Intentos: " + (intento.getNumIntento() + 1));
 
             if (esPalabraCorrecta(input)) {
                 JOptionPane.showMessageDialog(null, "¡Correcto! La palabra es '" + palabraAdivinar + "'");
@@ -108,14 +108,14 @@ public class Partida {
             } else {
                 StringBuilder mensaje = new StringBuilder();
                 for (int i = 0; i < 5; i++) {
-                    mensaje.append(comprobarLetra(input.charAt(i))).append("\n");
+                    comprobarLetra(input.charAt(i));
                 }
-                JOptionPane.showMessageDialog(null, mensaje.toString());
                 intento.incrementarIntento();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Se han acabado los intentos");
             intento.setNumIntento(0);
+            intento.incrementarIntento();
+            JOptionPane.showMessageDialog(null, "Intentos: "+ (intento.getNumIntento()));
             cambiarTurno();
         }
     }
@@ -167,22 +167,23 @@ public class Partida {
     public void guardarDatosPartida(ArrayList<Palabra> palabrasPartida) {
         try {
             FileOutputStream fileOut = new FileOutputStream("Wordle.dat", true);
-            DataOutputStream dataOut = new DataOutputStream(fileOut);
+            BufferedOutputStream buff = new BufferedOutputStream(fileOut);
+            ObjectOutputStream objOut = new ObjectOutputStream(buff);
 
-            dataOut.writeUTF(jugador1.getNombreUsuario());
-            dataOut.writeUTF("Los puntos de " + jugador1.getNombreUsuario() + " son: " + jugador1.getPuntos());
-            dataOut.writeUTF(jugador2.getNombreUsuario());
-            dataOut.writeUTF("Los puntos de " + jugador2.getNombreUsuario() + " son: " + jugador2.getPuntos());
+            objOut.writeObject(jugador1.getNombreUsuario());
+            objOut.writeObject("Los puntos de " + jugador1.getNombreUsuario() + " son: " + jugador1.getPuntos());
+            objOut.writeObject(jugador2.getNombreUsuario());
+            objOut.writeObject("Los puntos de " + jugador2.getNombreUsuario() + " son: " + jugador2.getPuntos());
             if (ganador != null) {
-                dataOut.writeUTF("El ganador es: " + ganador.getNombreUsuario());
+                objOut.writeObject("El ganador es: " + ganador.getNombreUsuario());
             }
-            dataOut.writeUTF("Las palabras ocultas de la partida han sido:");
+            objOut.writeObject("Las palabras ocultas de la partida han sido:");
             for (Palabra palabra : palabrasPartida) {
-                dataOut.writeUTF(palabra.toString());
+                objOut.writeObject(palabra.toString());
             }
-            dataOut.writeUTF("El numero de intentos totales de la partida han sido: " + intentos);
+            objOut.writeObject("El numero de intentos totales de la partida han sido: " + intentos);
 
-            dataOut.close();
+            objOut.close();
             fileOut.close();
 
             System.out.println("Los datos de la partida se han guardado correctamente en el archivo: wordle.dat");
@@ -191,7 +192,7 @@ public class Partida {
         }
     }
 
-public Jugador getGanador() {
+    public Jugador getGanador() {
         return ganador;
     }
 
@@ -241,7 +242,7 @@ public Jugador getGanador() {
     public Jugador getJugadorActual() {
         return jugadorActual;
     }
-    
+
     // Cambia el turno del jugador
     public void cambiarTurno() {
         if (!entrenamiento) {

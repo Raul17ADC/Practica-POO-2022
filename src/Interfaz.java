@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -48,7 +49,7 @@ public class Interfaz extends javax.swing.JFrame {
         palabra = new Palabra("");
         pistaL = new PistaLetra(null);
         pistaP = new PistaPalabra(null);
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -475,8 +476,18 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         bRegLetraEntrenamiento.setText("Regalo de letra");
+        bRegLetraEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRegLetraEntrenamientoActionPerformed(evt);
+            }
+        });
 
         bRegPalabraEntrenamiento.setText("Regalo de palabra");
+        bRegPalabraEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRegPalabraEntrenamientoActionPerformed(evt);
+            }
+        });
 
         tLetra2Solo.setEditable(false);
         tLetra2Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -1332,28 +1343,22 @@ public class Interfaz extends javax.swing.JFrame {
         pInfoPartidas.setVisible(true);
         try {
             FileInputStream fileIn = new FileInputStream("Wordle.dat");
-            DataInputStream dataIn = new DataInputStream(fileIn);
+            BufferedInputStream buff = new BufferedInputStream(fileIn);
+            ObjectInputStream objIn = new ObjectInputStream(buff);
 
-            StringBuilder sb = new StringBuilder();
-
-            // Leer y mostrar los datos guardados en el fichero
             while (true) {
                 try {
-                    String obj = dataIn.readUTF();
-                    sb.append(obj).append("\n");
+                    Object obj = objIn.readObject();
+                    tInfoPtds.append(obj.toString() + "\n");
                 } catch (EOFException e) {
                     break; // Fin del archivo
                 }
             }
 
-            dataIn.close();
+            objIn.close();
             fileIn.close();
-
-            // Mostrar los datos en el JTextArea
-            tInfoPtds.setText(sb.toString());
-
         } catch (Exception e) {
-            System.out.println("Error al cargar los datos de la partida: " + e.getMessage());
+            System.out.println("Error al leer los datos de la partida: " + e.getMessage());
         }
     }//GEN-LAST:event_bInfoPartidasActionPerformed
 
@@ -1464,6 +1469,7 @@ public class Interfaz extends javax.swing.JFrame {
 
             tPalabraEntrenamiento.setText("");
             if ((pEscrita.equals(palabra)) || (partida.getIntento().getNumIntento() == 5)) {
+                partida.getIntento().setNumIntento(0);
                 tLetra1Solo.setText("");
                 tLetra2Solo.setText("");
                 tLetra3Solo.setText("");
@@ -1492,6 +1498,16 @@ public class Interfaz extends javax.swing.JFrame {
         PistaPalabra pistaP = new PistaPalabra(palabra);
         pistaP.comprarPista(partida.getJugadorActual());
     }//GEN-LAST:event_bRegPalabraActionPerformed
+
+    private void bRegLetraEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraEntrenamientoActionPerformed
+        PistaLetra pLetra = new PistaLetra(palabra);
+        pLetra.comprarPista(partida.getJugadorActual());
+    }//GEN-LAST:event_bRegLetraEntrenamientoActionPerformed
+
+    private void bRegPalabraEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegPalabraEntrenamientoActionPerformed
+        PistaPalabra pistaP = new PistaPalabra(palabra);
+        pistaP.comprarPista(partida.getJugadorActual());
+    }//GEN-LAST:event_bRegPalabraEntrenamientoActionPerformed
 
     /**
      * @param args the command line arguments

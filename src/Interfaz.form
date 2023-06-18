@@ -692,11 +692,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Regalo de letra"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bRegLetraEntrenamientoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bRegPalabraEntrenamiento">
           <Properties>
             <Property name="text" type="java.lang.String" value="Regalo de palabra"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bRegPalabraEntrenamientoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tLetra2Solo">
           <Properties>
