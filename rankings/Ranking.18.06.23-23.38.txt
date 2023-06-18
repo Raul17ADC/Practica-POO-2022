@@ -1,0 +1,4 @@
+Nombre: Nombre: Raúl, Puntos: 70, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: Nombre: Jorge, Puntos: 40, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: Nombre: Pablo, Puntos: 5, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: Nombre: Mario, Puntos: 5, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}

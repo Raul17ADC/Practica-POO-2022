@@ -1,0 +1,181 @@
+Integrantes del grupo:
+Pablo Hortelano Romero
+Raúl Sanz Cuesta
+Jorge Lozoya Astudillo
+
+Primero vamos a explicar cómo funciona nuestra aplicación:
+	La pantalla principal simplemente muestra el título y dos botones, el botón Administrador y el botón Jugador.
+
+	Si pulsas el botón Administrador, te muestra la pantalla de las opciones de administrador. En esta pantalla aparecen todas las funciones que tiene el administrador y pulsando
+	los diferentes botones se mostrarán distintas pantallas en las que realizar esas acciones:
+		Dar de alta y dar de baja: En esta pantalla en la que el administrador escribe un nombre en el JTextField y puede dar de alta al jugador si no existe en el fichero
+			jugadores.txt (añadir el jugador al fichero) o dar de baja al jugador si el nombre escrito coincide con el nombre de un jugador del fichero (eliminar el 
+			jugador del fichero).
+		Parámetros de juego: En esta pantalla el administrador puede modificar las características de cada partida. Puede escribir el número de palabras a resolver en cada
+			partida (por como lo tenemos programado este número debe ser par) y permitir o no que pueda haber pista de letra o de palabra marcando lo que prefiera con
+			los Radio Button (por defecto si se permite usar las pistas solo se puede utilizar una de cada tipo por palabra).
+		Fichero de palabras: En esta pantalla se muestra en un JTextArea las palabras que tenemos en nuestro fichero palabras.txt (en la carpeta ficheros).
+		Información de las partidas: En esta pantalla se muestra en JTextArea la información de cada partida disputada (nombres y puntos de cada jugador, el número de intentos,
+			las palabras que se han elegido para la partida y el ganador). Hemos logrado crear el fichero binario pero a la hora de mostrar la información de todas las
+			partidas en el JTextArea solo se muestra la información de la primera partida.
+		Generar rankings: En esta pantalla el jugador puede elegir crear en la carpeta rankings un ranking ordenado alfabéticamente (botón ranking por orden alfabético) o un
+			ranking ordenado por puntos de mayor a menor (botón ranking por puntuación).
+		Volver: Al pulsar este botón se muestra la pantalla inicial.
+	Al pulsar el botón Volver de cada una de estas pantallas se vuelve a la pantalla de opciones de administrador.
+
+	Si pulsas el botón Jugador, se muestra la pantalla de opciones de juego. En esta pantalla puedes elegir el nombre de dos jugadores (dados de alta por el administrador y guardados
+	en el fichero jugadores.txt) para jugar una partida multijugador o escribir el nombre de un jugador que no esté dado de alto en el JTextField para hacer una partida de 
+	entrenamiento. Dependiendo de qué tipo de partida quieras jugar se mostrarán dos pantallas distintas:
+		Partida multijugador: Empezará jugando el jugador 1. Este jugador intentará resolver la palabra hasta que acierte o se quede sin intentos (pulsando el botón Resolver
+			para cada palabra que quiera probar). Al acertar o quedarse sin intentos será el turno del jugador 2. Así hasta que se hayan jugado todas las palabras, después de
+			esto se elegirá al ganador. Si las pistas están habilitadas y tienen puntos suficientes, los jugadores podrán usar una pista de cada tipo por palabra.
+		Partida entrenamiento: El jugador escrito en el JTextField jugará de forma individual hasta jugar todas las palabras.
+		El botón Volver de la pantalla opciones de juego te devuelve a la pantalla inicial.
+
+A continuación vamos a explicar lo que hace cada una de las clases y sus respectivos métodos:
+La clase Administrador se encarga de gestionar el juego y los jugadores. A continuación, se describen brevemente sus métodos y propiedades:
+	palabras: Es una lista de objetos de tipo Palabra, que almacena las palabras que se utilizarán en el juego.
+	pistaLetra y pistaPalabra: Son variables booleanas que indican si se permiten las pistas de letra y de palabra respectivamente durante el juego.
+	partidas: Es una lista de objetos de tipo Partida, que almacena información sobre las partidas jugadas.
+	Métodos principales:
+		agregarPalabra(Palabra palabra): Agrega una palabra a la lista de palabras.
+		eliminarPalabra(Palabra palabra): Elimina una palabra de la lista de palabras.
+		existeJugador(String nombre): Verifica si existe un jugador con el nombre especificado en un archivo de jugadores.
+		agregarNuevoJugador(String nombre): Agrega un nuevo jugador al archivo de jugadores.
+		eliminarJugador(String nombre): Elimina un jugador del archivo de jugadores.
+		configurarJuego(List<Palabra> palabras, boolean pistaLetra, boolean pistaPalabra): Configura el juego con las palabras y las opciones de pistas especificadas.
+		iniciarPartida(Jugador jugador1, Jugador jugador2): Inicia una partida entre dos jugadores.
+		crearRankingAlfabetico(): Crea un archivo de ranking ordenado alfabéticamente con los jugadores y sus puntos.
+		crearRankingPuntos(): Crea un archivo de ranking ordenado por puntos de mayor a menor con los jugadores y sus puntos.
+	La clase Administrador tiene también métodos auxiliares para leer y escribir en archivos, así como para convertir líneas de texto en objetos Jugador y Estadisticas.
+
+La clase ComparaPuntos implementa la interfaz Comparator y define una forma de comparar dos objetos de tipo Jugador basándose en sus puntos.
+	La clase tiene un método compare que compara dos jugadores (j1 y j2) y devuelve un valor entero que indica su orden relativo en función de los puntos que tienen. 
+	Si el jugador j1 tiene menos puntos que el jugador j2, se devuelve un valor negativo (-1). 
+	Si el jugador j1 tiene más puntos que el jugador j2, se devuelve un valor positivo (1). 
+	Si ambos jugadores tienen la misma cantidad de puntos, se devuelve 0, lo que indica que son iguales en términos de puntos.
+
+La clase Estadisticas representa las estadísticas de un jugador en un juego. Tiene los siguientes atributos:
+	partidasGanadas: representa la cantidad de partidas ganadas por el jugador.
+	partidasEmpatadas: representa la cantidad de partidas empatadas por el jugador.
+	partidasPerdidas: representa la cantidad de partidas perdidas por el jugador.
+	puntosTotales: representa el total de puntos acumulados por el jugador.
+La clase proporciona métodos para acceder y modificar los valores de los atributos. 
+Los métodos get permiten obtener los valores de los atributos, mientras que los métodos set permiten asignar nuevos valores a los atributos.
+Además, la clase sobrescribe el método toString(), que devuelve una representación en forma de cadena de las estadísticas del jugador, 
+mostrando la cantidad de partidas ganadas, empatadas y perdidas.
+
+La clase Intento representa un intento en un juego o actividad donde se tienen un número limitado de oportunidades para realizar acciones. Tiene los siguientes elementos:
+	Atributos:
+		numIntento: representa el número de intento actual.
+		MAXNUMINTENTOS: constante que define el número máximo de intentos permitidos.
+	Constructor:
+		Inicializa el número de intentos a 0.
+	Getters y Setters:
+		getNumIntento(): devuelve el número de intento actual.
+		setNumIntento(): establece el número de intento.
+		getMAXNUMINTENTOS(): devuelve el número máximo de intentos permitidos.
+	Método incrementarIntento():
+		Incrementa en 1 el número de intento actual, siempre y cuando no se haya alcanzado el máximo número de intentos permitidos.
+
+La clase Interfaz es nuestra clase principal en la que hemos definido el código de las distintas pantallas (JPanel) y elementos con los que interactúa el usuario.
+
+La clase Jugador representa a un jugador en un juego o actividad. Tiene los siguientes elementos:
+	Atributos:
+		nombreUsuario: representa el nombre del jugador.
+		puntos: representa la cantidad de puntos que tiene el jugador.
+		estadisticas: objeto de la clase Estadisticas que almacena las estadísticas del jugador.
+	Constructores:
+		Jugador(String nombreUsuario): crea un objeto Jugador con el nombre de usuario especificado. Inicializa los puntos en 5 y crea un objeto de estadísticas vacío.
+		Jugador(): crea un objeto Jugador con un nombre de usuario predeterminado ("Sin definir"). Inicializa los puntos en 5 y crea un objeto de estadísticas vacío.
+	Getters y Setters:
+		getNombreUsuario(): devuelve el nombre de usuario del jugador.
+		setNombreUsuario(String nombreUsuario): establece el nombre de usuario del jugador si no es nulo ni vacío.
+		getPuntos(): devuelve la cantidad de puntos del jugador.
+		setPuntos(int puntos): establece la cantidad de puntos del jugador.
+		getEstadisticas(): devuelve el objeto de estadísticas del jugador.
+		setEstadisticas(Estadisticas estadisticas): establece el objeto de estadísticas del jugador.
+	Métodos:
+		toString(): devuelve una representación en cadena del jugador, incluyendo el nombre de usuario, los puntos y las estadísticas.
+		equals(Object obj): compara el jugador actual con otro objeto para determinar si son iguales.
+			Dos jugadores se consideran iguales si tienen el mismo nombre de usuario (ignorando mayúsculas y minúsculas).
+		compareTo(Jugador other): implementa el método de comparación de la interfaz Comparable. 
+			Compara el jugador actual con otro jugador según el nombre de usuario (ignorando mayúsculas y minúsculas).
+
+La clase Palabra representa una palabra y tiene las siguientes características:
+	Implementa la interfaz Serializable, lo que indica que los objetos de esta clase se pueden convertir en una secuencia de bytes para ser almacenados o transmitidos.
+	Atributos:
+		letras: es un arreglo de caracteres que representa las letras de la palabra.
+		MAX: es una constante entera que especifica el tamaño máximo de la palabra.
+	Constructor:
+		Palabra(String p): crea un objeto Palabra a partir de una cadena de texto. Convierte la cadena a minúsculas y la asigna al atributo letras como un arreglo de caracteres.
+	Getter:
+		getLetras(): devuelve el arreglo de caracteres que representa las letras de la palabra.
+	Métodos:
+		toString(): devuelve una representación en cadena de la palabra, convirtiendo el arreglo de caracteres en una cadena de texto.
+		equals(Object obj): compara la palabra actual con otro objeto para determinar si son iguales. 
+			Dos palabras se consideran iguales si sus arreglos de caracteres son iguales utilizando el método Arrays.equals().
+
+La clase Partida representa una partida de un juego y tiene las siguientes características:
+	Implementa la interfaz Serializable, lo que indica que los objetos de esta clase se pueden convertir en una secuencia de bytes para ser almacenados o transmitidos.
+	Atributos:
+		perdedor, ganador, jugador1, jugador2, jugadorActual: objetos de la clase Jugador que representan los jugadores de la partida.
+		palabrasPartida: una lista de objetos Palabra que contiene las palabras de la partida.
+		turno: un entero que indica el turno actual de la partida.
+		palabraAdivinar: una cadena de texto que representa la palabra que se debe adivinar en la partida.
+		palabraMostrada: una cadena de texto que muestra las letras adivinadas de la palabra.
+		entrenamiento: un booleano que indica si la partida es de entrenamiento o no.
+		intento: un objeto de la clase Intento que registra los intentos realizados.
+		intentos: un entero que cuenta el número de intentos realizados en la partida.
+	Constructores:
+		Partida(ArrayList<Palabra> palabrasPartida, String jugador1, String jugador2): crea un objeto Partida con una lista de palabras, 
+			los nombres de los jugadores y configura el estado inicial de la partida.
+		Partida(ArrayList<Palabra> palabrasPartida, String jugador1): crea un objeto Partida con una lista de palabras y el nombre de un solo jugador, 
+			configurando el estado inicial para una partida de entrenamiento.
+	Métodos:
+		acertarPalabra(int intento, Jugador j): actualiza los puntos del jugador si adivina la palabra antes de alcanzar el límite de intentos.
+		esPalabraCorrecta(String palabraIntroducida): verifica si la palabra introducida por el jugador es la correcta.
+		comprobarLetra(char letraIntroducida): comprueba si una letra introducida por el jugador está en la palabra a adivinar y 
+			muestra un mensaje con la información correspondiente.
+		revelarLetra(char letra, int posicion): revela una letra en la posición dada de la palabra mostrada.
+		contieneLetra(char letraIntroducida): verifica si la palabra a adivinar contiene una letra específica introducida por el jugador.
+		jugar(Palabra palabra, String input): realiza un intento de juego con una palabra y la entrada del jugador.
+		terminarPartida(): finaliza la partida y actualiza las estadísticas de los jugadores.
+		determinarGanador(): determina el ganador de la partida basado en los puntos obtenidos por los jugadores.
+		guardarDatosPartida(ArrayList<Palabra> palabrasPartida): guarda los datos de la partida en un archivo utilizando la serialización.
+	Varios métodos getters y setters para acceder y modificar los atributos de la partida.
+
+La clase abstracta Pista representa una pista en un juego y tiene las siguientes características:
+	Atributos:
+		coste: un entero que indica el costo de la pista.
+		palabra: un objeto de la clase Palabra que representa la palabra relacionada con la pista.
+	Constructor:
+		Pista(int coste, Palabra palabra): crea un objeto Pista con un costo y una palabra asociada.
+	Métodos:
+		getCoste(): devuelve el costo de la pista.
+		setCoste(int coste): establece el costo de la pista.
+		getPalabra(): devuelve la palabra asociada con la pista.
+		setPalabra(Palabra palabra): establece la palabra asociada con la pista.
+		comprarPista(Jugador j): método abstracto que se debe implementar en las clases derivadas. Representa la acción de comprar una pista por parte del jugador.
+
+La clase PistaLetra es una subclase de la clase abstracta Pista y representa una pista que revela una letra de la palabra oculta en un juego. Tiene las siguientes características:
+	Atributos:
+		letra: un carácter que representa la letra revelada como pista.
+		COSTE: una constante entera que indica el costo de esta pista. Es un valor estático y final, establecido en 2.
+	Constructor:
+		PistaLetra(Palabra palabra): crea un objeto PistaLetra con el costo y la palabra proporcionados. Utiliza el costo definido en la constante COSTE de la clase padre Pista.
+	Métodos:
+		comprarPista(Jugador j): implementa el método abstracto de la clase padre. Permite al jugador comprar la pista de letra. 
+			Verifica si el jugador tiene suficientes puntos para comprar la pista. Si el jugador tiene suficientes puntos, 
+			se selecciona una letra aleatoria de la palabra asociada a la pista y se muestra como pista al jugador.
+
+La clase PistaPalabra es una subclase de la clase abstracta Pista y representa una pista que revela la palabra oculta completa en un juego. Tiene las siguientes características:
+	Atributos:
+		COSTE: una constante entera que indica el costo de esta pista. Es un valor estático y final, establecido en 5.
+	Constructor:
+		PistaPalabra(Palabra palabra): crea un objeto PistaPalabra con el costo y la palabra proporcionados. 
+			Utiliza el costo definido en la constante COSTE de la clase padre Pista.
+	Métodos:
+		comprarPista(Jugador j): implementa el método abstracto de la clase padre. Permite al jugador comprar la pista de la palabra. 
+			Verifica si el jugador tiene suficientes puntos para comprar la pista. Si el jugador tiene suficientes puntos, 
+			se muestra la palabra completa asociada a la pista al jugador.

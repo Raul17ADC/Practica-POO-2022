@@ -1,4 +1,4 @@
-Nombre: Jorge, Puntos: 40, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
-Nombre: Raúl, Puntos: 70, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
-Nombre: Pablo, Puntos: 5, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
-Nombre: Mario, Puntos: 5, Estadísticas: Estadisticas{PartidasGanadas=0, PartidasEmpatadas=0, PartidasPerdidas=0}
+Nombre: Jorge, Puntos: 40, Estadísticas: Estadisticas{PartidasGanadas=1, PartidasEmpatadas=0, PartidasPerdidas=1}
+Nombre: Raúl, Puntos: 70, Estadísticas: Estadisticas{PartidasGanadas=1, PartidasEmpatadas=0, PartidasPerdidas=1}
+Nombre: Pablo, Puntos: 12, Estadísticas: Estadisticas{PartidasGanadas=1, PartidasEmpatadas=1, PartidasPerdidas=2}
+Nombre: Mario, Puntos: 13, Estadísticas: Estadisticas{PartidasGanadas=1, PartidasEmpatadas=1, PartidasPerdidas=0}

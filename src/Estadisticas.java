@@ -1,32 +1,34 @@
-
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
 public class Estadisticas {
 
-    private int PartidasGanadas;
-    private int PartidasEmpatadas;
-    private int PartidasPerdidas;
+    private int partidasGanadas;
+    private int partidasEmpatadas;
+    private int partidasPerdidas;
     private int puntosTotales;
 
     public Estadisticas() {
-        this.PartidasEmpatadas = 0;
-        this.PartidasGanadas = 0;
-        this.PartidasPerdidas = 0;
+        this.partidasEmpatadas = 0;
+        this.partidasGanadas = 0;
+        this.partidasPerdidas = 0;
         this.puntosTotales = 0;
     }
 
     public int getPartidasGanadas() {
-        return PartidasGanadas;
+        return partidasGanadas;
     }
 
     public void setPartidasGanadas(int partidasGanadas) {
-        PartidasGanadas = partidasGanadas;
+        this.partidasGanadas = partidasGanadas;
     }
 
     public int getPartidasEmpatadas() {
-        return PartidasEmpatadas;
+        return partidasEmpatadas;
     }
 
     public int getPartidasPerdidas() {
-        return PartidasPerdidas;
+        return partidasPerdidas;
     }
 
     public int getPuntosTotales() {
@@ -38,19 +40,19 @@ public class Estadisticas {
     }
 
     public void setPartidasEmpatadas(int partidasEmpatadas) {
-        PartidasEmpatadas = partidasEmpatadas;
+        this.partidasEmpatadas = partidasEmpatadas;
     }
 
     public void setPartidasPerdidas(int partidasPerdidas) {
-        PartidasPerdidas = partidasPerdidas;
+        this.partidasPerdidas = partidasPerdidas;
     }
 
     @Override
     public String toString() {
         return "Estadisticas{"
-                + "PartidasGanadas=" + PartidasGanadas
-                + ", PartidasEmpatadas=" + PartidasEmpatadas
-                + ", PartidasPerdidas=" + PartidasPerdidas
+                + "PartidasGanadas=" + partidasGanadas
+                + ", PartidasEmpatadas=" + partidasEmpatadas
+                + ", PartidasPerdidas=" + partidasPerdidas
                 + '}';
     }
 

@@ -16,6 +16,10 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
+
 public class Administrador {
 
     private List<Palabra> palabras;

@@ -1,5 +1,9 @@
 import java.util.Comparator;
 
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
+
 public class ComparaPuntos implements Comparator<Jugador>{
     @Override
     public int compare(Jugador j1, Jugador j2) {

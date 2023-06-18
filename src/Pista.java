@@ -1,4 +1,6 @@
-
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
 public abstract class Pista {
 
     //Atributos

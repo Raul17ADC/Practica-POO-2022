@@ -2,6 +2,10 @@
 import java.io.Serializable;
 import java.util.Arrays;
 
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
+
 public class Palabra implements Serializable{
 
     //Atributos

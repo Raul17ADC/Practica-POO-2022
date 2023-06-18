@@ -1,6 +1,9 @@
 
 import javax.swing.JOptionPane;
 
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
 
 public class PistaPalabra extends Pista {
 

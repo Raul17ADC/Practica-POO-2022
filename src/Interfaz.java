@@ -2,9 +2,7 @@
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +18,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import jdk.jshell.execution.Util;
+
+/*
+ @author Jorge Lozoya Astudillo (j.lozoya.2020@alumnos.urjc.es)
+*/
 
 public class Interfaz extends javax.swing.JFrame {
 
@@ -1321,7 +1322,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void bFichPalabrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFichPalabrasActionPerformed
         pFichPalabras.setVisible(true);
         pOpcionesAdmin.setVisible(false);
-        String rutaArchivo = "palabras.txt";
+        String rutaArchivo = "ficheros/palabras.txt";
 
         try ( BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
             StringBuilder contenido = new StringBuilder();
@@ -1347,24 +1348,27 @@ public class Interfaz extends javax.swing.JFrame {
     private void bInfoPartidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInfoPartidasActionPerformed
         pOpcionesAdmin.setVisible(false);
         pInfoPartidas.setVisible(true);
+        tInfoPtds.setText("");
+
         try {
-            tInfoPtds.setText("");
+        FileInputStream fileIn = new FileInputStream("Wordle.dat");
+        BufferedInputStream buff = new BufferedInputStream(fileIn);
+        ObjectInputStream objIn = new ObjectInputStream(buff);
 
-            File file = new File("Prueba.dat");
-            if (!file.exists() || file.length() == 0) {
-                System.out.println("El archivo Prueba.dat no contiene datos.");
-                return;
+        while (true) {
+            try {
+                Object obj = objIn.readObject();
+                tInfoPtds.append(obj.toString() + "\n");
+            } catch (EOFException e) {
+                break; // Fin del archivo
             }
-
-            DataInputStream dataIn = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
-            while (dataIn.available() > 0) {
-                String data = dataIn.readUTF();
-                tInfoPtds.append(data + "\n");
-            }
-            dataIn.close();
-        } catch (Exception e) {
-            System.out.println("Error al leer los datos de la partida: " + e.getMessage());
         }
+
+        objIn.close();
+        fileIn.close();
+    } catch (Exception e) {
+        System.out.println("Error al leer los datos de la partida: " + e.getMessage());
+    }
     }//GEN-LAST:event_bInfoPartidasActionPerformed
 
     private void pVolverRankingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverRankingsActionPerformed
@@ -1532,16 +1536,24 @@ public class Interfaz extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Interfaz.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
