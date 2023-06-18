@@ -1,9 +1,13 @@
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +27,8 @@ public class Interfaz extends javax.swing.JFrame {
     private String j1, j2;
     private ArrayList<Palabra> totalPalabras, palabrasPartida;
     private Palabra palabra;
+    private PistaLetra pistaL;
+    private PistaPalabra pistaP;
 
     public Interfaz() {
         initComponents();
@@ -40,6 +46,9 @@ public class Interfaz extends javax.swing.JFrame {
         palabrasPartida = new ArrayList<>();
         partida = new Partida(palabrasPartida, j1, j2);
         palabra = new Palabra("");
+        pistaL = new PistaLetra(null);
+        pistaP = new PistaPalabra(null);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -337,6 +346,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         bRegPalabra.setText("Regalo de palabra");
+        bRegPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRegPalabraActionPerformed(evt);
+            }
+        });
 
         tLetra2Multi.setEditable(false);
         tLetra2Multi.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -465,14 +479,24 @@ public class Interfaz extends javax.swing.JFrame {
         bRegPalabraEntrenamiento.setText("Regalo de palabra");
 
         tLetra2Solo.setEditable(false);
+        tLetra2Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tLetra2Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra5Solo.setEditable(false);
+        tLetra5Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tLetra5Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra4Solo.setEditable(false);
+        tLetra4Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tLetra4Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra3Solo.setEditable(false);
+        tLetra3Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tLetra3Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tLetra1Solo.setEditable(false);
+        tLetra1Solo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tLetra1Solo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout pEntrenamientoLayout = new javax.swing.GroupLayout(pEntrenamiento);
         pEntrenamiento.setLayout(pEntrenamientoLayout);
@@ -1091,11 +1115,11 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_bSalirPartidaActionPerformed
 
     private void bPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPartidaActionPerformed
-        pPartidaMulti.setVisible(true);
-        pOpcionesJuego.setVisible(false);
         if (nombreJ1.getSelectedItem().equals(nombreJ2.getSelectedItem())) {
             JOptionPane.showMessageDialog(this, "Elige dos jugadores distintos", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
+            pOpcionesJuego.setVisible(false);
+            pPartidaMulti.setVisible(true);
             String nPalabras = tNPalabras.getText();
             int num = Integer.parseInt(nPalabras);
             Random random = new Random();
@@ -1156,11 +1180,11 @@ public class Interfaz extends javax.swing.JFrame {
         } else if (pEscrita.getLetras().length != 5) {
             JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            tLetra1Multi.setText(Character.toString(pEscrita.getLetras()[0]));
-            tLetra2Multi.setText(Character.toString(pEscrita.getLetras()[1]));
-            tLetra3Multi.setText(Character.toString(pEscrita.getLetras()[2]));
-            tLetra4Multi.setText(Character.toString(pEscrita.getLetras()[3]));
-            tLetra5Multi.setText(Character.toString(pEscrita.getLetras()[4]));
+            tLetra1Multi.setText(Character.toString(pEscrita.getLetras()[0]).toUpperCase());
+            tLetra2Multi.setText(Character.toString(pEscrita.getLetras()[1]).toUpperCase());
+            tLetra3Multi.setText(Character.toString(pEscrita.getLetras()[2]).toUpperCase());
+            tLetra4Multi.setText(Character.toString(pEscrita.getLetras()[3]).toUpperCase());
+            tLetra5Multi.setText(Character.toString(pEscrita.getLetras()[4]).toUpperCase());
             partida.jugar(palabra, tPalabraMulti.getText());
 
             for (int i = 0; i < 5; i++) {
@@ -1224,6 +1248,7 @@ public class Interfaz extends javax.swing.JFrame {
                 } else {
                     partida.determinarGanador();
                     partida.terminarPartida();
+                    partida.guardarDatosPartida(palabrasPartida);
                     JOptionPane.showMessageDialog(this, "¡Partida finalizada!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     pOpcionesJuego.setVisible(true);
                     pPartidaMulti.setVisible(false);
@@ -1303,8 +1328,33 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverInfoPtdsActionPerformed
 
     private void bInfoPartidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInfoPartidasActionPerformed
-        pInfoPartidas.setVisible(true);
         pOpcionesAdmin.setVisible(false);
+        pInfoPartidas.setVisible(true);
+        try {
+            FileInputStream fileIn = new FileInputStream("Wordle.dat");
+            DataInputStream dataIn = new DataInputStream(fileIn);
+
+            StringBuilder sb = new StringBuilder();
+
+            // Leer y mostrar los datos guardados en el fichero
+            while (true) {
+                try {
+                    String obj = dataIn.readUTF();
+                    sb.append(obj).append("\n");
+                } catch (EOFException e) {
+                    break; // Fin del archivo
+                }
+            }
+
+            dataIn.close();
+            fileIn.close();
+
+            // Mostrar los datos en el JTextArea
+            tInfoPtds.setText(sb.toString());
+
+        } catch (Exception e) {
+            System.out.println("Error al cargar los datos de la partida: " + e.getMessage());
+        }
     }//GEN-LAST:event_bInfoPartidasActionPerformed
 
     private void pVolverRankingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverRankingsActionPerformed
@@ -1360,7 +1410,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_bRankPuntosActionPerformed
 
     private void bRegLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraActionPerformed
-        //PistaLetra pLetra = new PistaLetra(palabra);
+        PistaLetra pLetra = new PistaLetra(palabra);
+        pLetra.comprarPista(partida.getJugadorActual());
     }//GEN-LAST:event_bRegLetraActionPerformed
 
     private void bResolverEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResolverEntrenamientoActionPerformed
@@ -1370,11 +1421,11 @@ public class Interfaz extends javax.swing.JFrame {
         } else if (pEscrita.getLetras().length != 5) {
             JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            tLetra1Solo.setText(Character.toString(pEscrita.getLetras()[0]));
-            tLetra2Solo.setText(Character.toString(pEscrita.getLetras()[1]));
-            tLetra3Solo.setText(Character.toString(pEscrita.getLetras()[2]));
-            tLetra4Solo.setText(Character.toString(pEscrita.getLetras()[3]));
-            tLetra5Solo.setText(Character.toString(pEscrita.getLetras()[4]));
+            tLetra1Solo.setText(Character.toString(pEscrita.getLetras()[0]).toUpperCase());
+            tLetra2Solo.setText(Character.toString(pEscrita.getLetras()[1]).toUpperCase());
+            tLetra3Solo.setText(Character.toString(pEscrita.getLetras()[2]).toUpperCase());
+            tLetra4Solo.setText(Character.toString(pEscrita.getLetras()[3]).toUpperCase());
+            tLetra5Solo.setText(Character.toString(pEscrita.getLetras()[4]).toUpperCase());
             partida.jugar(palabra, tPalabraEntrenamiento.getText());
 
             for (int i = 0; i < 5; i++) {
@@ -1436,6 +1487,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_bResolverEntrenamientoActionPerformed
+
+    private void bRegPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegPalabraActionPerformed
+        PistaPalabra pistaP = new PistaPalabra(palabra);
+        pistaP.comprarPista(partida.getJugadorActual());
+    }//GEN-LAST:event_bRegPalabraActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,4 +1,7 @@
 
+import javax.swing.JOptionPane;
+
+
 public class PistaPalabra extends Pista {
 
     private static final int COSTE = 5;
@@ -12,12 +15,10 @@ public class PistaPalabra extends Pista {
     @Override
     public void comprarPista(Jugador j) {
         if (j.getPuntos() < this.getCoste()) {
-            throw new IllegalArgumentException("No tienes suficientes puntos para comprar esta pista.");
+            JOptionPane.showMessageDialog(null, "No tienes suficientes puntos","Error", JOptionPane.WARNING_MESSAGE);
         } else {
             j.setPuntos(j.getPuntos() - this.getCoste()); // Resta los puntos del coste de la pista
-            // Provee la mitad de la palabra como pista
-            String palabraPista = this.getPalabra().toString().substring(0, this.getPalabra().toString().length() / 2); // Selecciona la primera mitad de la palabra
-            System.out.println("Pista: La primera mitad de la palabra es " + palabraPista);
+            JOptionPane.showMessageDialog(null, "La palabra es: " + this.getPalabra().toString());
         }
     }
 
