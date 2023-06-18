@@ -182,7 +182,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addGroup(pInicioLayout.createSequentialGroup()
                                 .addGap(169, 169, 169)
                                 .addComponent(jLabel4)))
-                        .addGap(0, 171, Short.MAX_VALUE))
+                        .addGap(0, 169, Short.MAX_VALUE))
                     .addGroup(pInicioLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(bAdmin)
@@ -197,7 +197,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 297, Short.MAX_VALUE)
                 .addGroup(pInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bAdmin)
                     .addComponent(bJugador))
@@ -276,7 +276,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(74, 74, 74)
                         .addComponent(bEntrenamiento)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         pOpcionesJuegoLayout.setVerticalGroup(
             pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +295,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(tNombreJNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addGroup(pOpcionesJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -430,7 +430,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pPartidaMultiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRegLetra)
                     .addComponent(bRegPalabra))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(bSalirPartida)
                 .addContainerGap())
         );
@@ -449,11 +449,16 @@ public class Interfaz extends javax.swing.JFrame {
 
         entrenamientoJug.setText("Entrenamiento del jugador jugador1:");
 
-        puntosJugEntrenamiento.setText("Puntos disponibles: 50");
+        puntosJugEntrenamiento.setText("Puntos disponibles: 5");
 
         jLabel10.setText("Escribe la palabra:");
 
         bResolverEntrenamiento.setText("Resolver");
+        bResolverEntrenamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bResolverEntrenamientoActionPerformed(evt);
+            }
+        });
 
         bRegLetraEntrenamiento.setText("Regalo de letra");
 
@@ -538,7 +543,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pEntrenamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRegLetraEntrenamiento)
                     .addComponent(bRegPalabraEntrenamiento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(bSalirEntrenamiento)
                 .addContainerGap())
         );
@@ -645,7 +650,7 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(bParametros))
                         .addGap(37, 37, 37)
                         .addComponent(bFichPalabras)
-                        .addContainerGap(149, Short.MAX_VALUE))))
+                        .addContainerGap(152, Short.MAX_VALUE))))
         );
 
         pAltaYBaja.setPreferredSize(new java.awt.Dimension(500, 400));
@@ -720,7 +725,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(pAltaYBajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bDarAlta)
                     .addComponent(bDarBaja))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(pVolverAltaYBaja)
                 .addContainerGap())
         );
@@ -825,7 +830,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(bNoPalabra))
                 .addGap(26, 26, 26)
                 .addComponent(bGuardarCambios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(pVolverParam)
                 .addContainerGap())
         );
@@ -877,7 +882,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel21)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(pVolverFichPal)
                 .addContainerGap())
         );
@@ -933,7 +938,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel23)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(pVolverInfoPtds)
                 .addContainerGap())
         );
@@ -986,7 +991,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(pRankingsLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(pVolverRankings)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pRankingsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(pRankingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1010,7 +1015,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(bRankPuntos)
                 .addGap(18, 18, 18)
                 .addComponent(bRankAlfabetico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                 .addComponent(pVolverRankings)
                 .addContainerGap())
         );
@@ -1117,6 +1122,7 @@ public class Interfaz extends javax.swing.JFrame {
         pOpcionesJuego.setVisible(false);
         String nombre = tNombreJNuevo.getText();
         entrenamientoJug.setText("Entrenamiento del jugador " + nombre + ":");
+        palabra = palabrasPartida.get(0);
     }//GEN-LAST:event_bEntrenamientoActionPerformed
 
     private void bSalirEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirEntrenamientoActionPerformed
@@ -1347,6 +1353,80 @@ public class Interfaz extends javax.swing.JFrame {
     private void bRegLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraActionPerformed
         //PistaLetra pLetra = new PistaLetra(palabra);
     }//GEN-LAST:event_bRegLetraActionPerformed
+
+    private void bResolverEntrenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResolverEntrenamientoActionPerformed
+        Palabra pEscrita = new Palabra(tPalabraEntrenamiento.getText());
+        if (tPalabraEntrenamiento.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Escribe la palabra que quieres probar.", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else if (pEscrita.getLetras().length != 5) {
+            JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            tLetra1Solo.setText(Character.toString(pEscrita.getLetras()[0]));
+            tLetra2Solo.setText(Character.toString(pEscrita.getLetras()[1]));
+            tLetra3Solo.setText(Character.toString(pEscrita.getLetras()[2]));
+            tLetra4Solo.setText(Character.toString(pEscrita.getLetras()[3]));
+            tLetra5Solo.setText(Character.toString(pEscrita.getLetras()[4]));
+            partida.jugar(palabra, tPalabraEntrenamiento.getText());
+
+            for (int i = 0; i < 5; i++) {
+                char letraPalabra = palabra.toString().charAt(i);
+                char letraEscrita = pEscrita.toString().charAt(i);
+                JTextField textField = null;
+
+                switch (i) {
+                    case 0:
+                        textField = tLetra1Solo;
+                        break;
+                    case 1:
+                        textField = tLetra2Solo;
+                        break;
+                    case 2:
+                        textField = tLetra3Solo;
+                        break;
+                    case 3:
+                        textField = tLetra4Solo;
+                        break;
+                    case 4:
+                        textField = tLetra5Solo;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (letraEscrita == letraPalabra) {
+                    textField.setBackground(Color.GREEN);
+                } else if (palabra.toString().contains(String.valueOf(letraEscrita))) {
+                    textField.setBackground(Color.YELLOW);
+                } else {
+                    textField.setBackground(Color.WHITE);
+                }
+            }
+
+            tPalabraEntrenamiento.setText("");
+            if ((pEscrita.equals(palabra)) || (partida.getIntento().getNumIntento() == 5)) {
+                tLetra1Solo.setText("");
+                tLetra2Solo.setText("");
+                tLetra3Solo.setText("");
+                tLetra4Solo.setText("");
+                tLetra5Solo.setText("");
+                tLetra1Solo.setBackground(Color.WHITE);
+                tLetra2Solo.setBackground(Color.WHITE);
+                tLetra3Solo.setBackground(Color.WHITE);
+                tLetra4Solo.setBackground(Color.WHITE);
+                tLetra5Solo.setBackground(Color.WHITE);
+                String nJ1 = partida.getJugador1().getNombreUsuario();
+                puntosJugEntrenamiento.setText("Puntos disponibles: " + partida.getJugador1().getPuntos());
+                int index = palabrasPartida.indexOf(palabra);
+                if (index >= 0 && index < palabrasPartida.size() - 1) {
+                    palabra = palabrasPartida.get(index + 1);
+                } else {
+                    JOptionPane.showMessageDialog(this, "¡Partida finalizada!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    pOpcionesJuego.setVisible(true);
+                    pEntrenamiento.setVisible(false);
+                }
+            }
+        }
+    }//GEN-LAST:event_bResolverEntrenamientoActionPerformed
 
     /**
      * @param args the command line arguments
