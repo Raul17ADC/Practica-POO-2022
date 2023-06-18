@@ -25,13 +25,8 @@ public class Intento {
 
     // Método para incrementar el número de intentos
     public void incrementarIntento() {
-        if (this.numIntento < MAXNUMINTENTOS) { //Comprueba si se ha alcanzado el número máximo de intentos
+        if (this.numIntento < MAXNUMINTENTOS) { // Si no se ha alcanzado el máximo número de intentos...
             this.numIntento++;
         }
-    }
-
-    // Método para comprobar si se ha alcanzado el número máximo de intentos
-    public boolean maxIntentosAlcanzados() {
-        return this.numIntento >= MAXNUMINTENTOS;
     }
 }

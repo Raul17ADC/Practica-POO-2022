@@ -17,7 +17,7 @@ public class PistaPalabra extends Pista {
         if (j.getPuntos() < this.getCoste()) {
             JOptionPane.showMessageDialog(null, "No tienes suficientes puntos","Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            j.setPuntos(j.getPuntos() - this.getCoste()); // Resta los puntos del coste de la pista
+            j.setPuntos(j.getPuntos() - this.getCoste()); 
             JOptionPane.showMessageDialog(null, "La palabra es: " + this.getPalabra().toString());
         }
     }

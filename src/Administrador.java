@@ -42,7 +42,7 @@ public class Administrador {
             try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Comparar el nombre con cada línea del archivo
+                    // Compara el nombre con cada línea del archivo
                     if (line.trim().equalsIgnoreCase(nombre)) {
                         return true; // El nombre coincide
                     }
@@ -51,11 +51,11 @@ public class Administrador {
                 throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
             }
         }
-        return false; // El nombre no se encontró en el archivo
+        return false; // El nombre no está en el archivo
     }
 
     public void agregarNuevoJugador(String nombre) {
-        // Verificar si el archivo de jugadores existe, de lo contrario, crearlo
+        // Verifica si el archivo de jugadores existe, si no, lo crea
         Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
         if (!Files.exists(archivoJugadores)) {
             try {
@@ -65,16 +65,16 @@ public class Administrador {
             }
         }
 
-        // Verificar si el jugador ya existe en el archivo
+        // Verifica si el jugador ya existe en el archivo
         if (existeJugador(nombre)) {
             JOptionPane.showMessageDialog(null, "Ya existe un jugador con el nombre: " + nombre, "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Crear el objeto Jugador con valores predeterminados
+        // Crea el objeto Jugador con valores predeterminados
         Jugador jugador = new Jugador(nombre);
 
-        // Agregar el jugador al final del archivo
+        // Agrega el jugador al final del archivo
         try ( BufferedWriter writer = Files.newBufferedWriter(archivoJugadores, StandardOpenOption.APPEND)) {
             writer.write(jugador.toString());
             writer.newLine();
@@ -84,7 +84,7 @@ public class Administrador {
     }
 
     public void eliminarJugador(String nombre) {
-        // Verificar si el archivo de jugadores existe
+        // Verifica si el archivo de jugadores existe
         Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
         if (Files.exists(archivoJugadores)) {
             try {
@@ -142,41 +142,24 @@ public class Administrador {
         List<String> palabrasJuego = palabras.stream()
                 .map(Palabra::toString)
                 .collect(Collectors.toList());
-        // Elegir una palabra al azar
+        // Elige una palabra al azar
         String palabraAdivinar = palabrasJuego.get(new Random().nextInt(palabrasJuego.size()));
-        //Partida partida = new Partida(palabrasJuego, jugador1, jugador2, palabraAdivinar);
-        //partidas.add(partida);
-        //partida.jugar();
     }
 
-//    public void obtenerInformacionCompletaPartidas() {
-//        for (Partida partida : partidas) {
-//            System.out.println("Partida:");
-//            System.out.println("Jugador 1: " + partida.getJugador1().getNombreUsuario());
-//            System.out.println("Jugador 2: " + partida.getJugador2().getNombreUsuario());
-//            System.out.println("Palabra oculta: " + partida.getPalabras());
-//            System.out.println("Intentos jugador 1: " + partida.getIntentosJ1());
-//            System.out.println("Intentos jugador 2: " + partida.getIntentosJ2());
-//            //   System.out.println("Pistas utilizadas jugador 1: " + partida.getIntentoj1().getPistasUtilizadas());
-//            //   System.out.println("Pistas utilizadas jugador 2: " + partida.getIntentoj2().getPistasUtilizadas());
-//            System.out.println("--------------");
-//        }
-//    }
-
     public void crearRankingAlfabetico() {
-        // Obtener la ruta del archivo de jugadores
+        // Obtiene la ruta del archivo de jugadores
         Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
 
-        // Verificar si el archivo existe
+        // Verifica si el archivo existe
         if (!Files.exists(archivoJugadores)) {
             JOptionPane.showMessageDialog(null, "El archivo de jugadores no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Crear una lista para almacenar los jugadores leídos del archivo
+        // Crea una lista para almacenar los jugadores leídos del archivo
         List<Jugador> jugadores = new ArrayList<>();
 
-        // Leer los jugadores del archivo
+        // Lee los jugadores del archivo
         try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -199,20 +182,20 @@ public class Administrador {
             throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
         }
 
-        // Ordenar los jugadores alfabéticamente
+        // Ordena los jugadores alfabéticamente
         Collections.sort(jugadores);
 
-        // Obtener la fecha y hora actual para formatear el nombre del archivo
+        // Obtiene la fecha y hora actual para formatear el nombre del archivo
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy-HH.mm");
         String fechaHoraActual = sdf.format(new Date());
 
-        // Crear el nombre del archivo
+        // Crea el nombre del archivo
         String nombreArchivo = "rankings/Listado." + fechaHoraActual + ".txt";
 
-        // Crear el archivo de jugadores
+        // Crea el archivo de jugadores
         Path archivoRanking = Paths.get(nombreArchivo);
         try ( BufferedWriter writer = Files.newBufferedWriter(archivoRanking)) {
-            // Escribir los datos de los jugadores en el archivo
+            // Escribe los datos de los jugadores en el archivo
             for (Jugador jugador : jugadores) {
                 writer.write(jugador.toString());
                 writer.newLine();
@@ -224,19 +207,19 @@ public class Administrador {
     }
 
     public void crearRankingPuntos() {
-        // Obtener la ruta del archivo de jugadores
+        // Obtiene la ruta del archivo de jugadores
         Path archivoJugadores = Paths.get("ficheros/jugadores.txt");
 
-        // Verificar si el archivo existe
+        // Verifica si el archivo existe
         if (!Files.exists(archivoJugadores)) {
             JOptionPane.showMessageDialog(null, "El archivo de jugadores no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Crear una lista para almacenar los jugadores leídos del archivo
+        // Crea una lista para almacenar los jugadores leídos del archivo
         List<Jugador> jugadores = new ArrayList<>();
 
-        // Leer los jugadores del archivo
+        // Lee los jugadores del archivo
         try ( BufferedReader reader = Files.newBufferedReader(archivoJugadores)) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -258,20 +241,20 @@ public class Administrador {
             throw new RuntimeException("Error al leer el archivo de jugadores: " + e.getMessage());
         }
 
-        // Ordenar los jugadores por sus puntos de mayor a menor
+        // Ordena los jugadores por sus puntos de mayor a menor
         Collections.sort(jugadores, (j1, j2) -> j2.getPuntos() - j1.getPuntos());
 
-        // Obtener la fecha y hora actual para formatear el nombre del archivo
+        // Obtiene la fecha y hora actual para formatear el nombre del archivo
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy-HH.mm");
         String fechaHoraActual = sdf.format(new Date());
 
-        // Crear el nombre del archivo
+        // Crea el nombre del archivo
         String nombreArchivo = "rankings/Ranking." + fechaHoraActual + ".txt";
 
-        // Crear el archivo de ranking
+        // Crea el archivo de ranking
         Path archivoRanking = Paths.get(nombreArchivo);
         try ( BufferedWriter writer = Files.newBufferedWriter(archivoRanking)) {
-            // Escribir los datos de los jugadores en el archivo
+            // Escribe los datos de los jugadores en el archivo
             for (Jugador jugador : jugadores) {
                 writer.write(jugador.toString());
                 writer.newLine();

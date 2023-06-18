@@ -21,8 +21,8 @@ public class PistaLetra extends Pista {
         } else {
             Random random = new Random();
             j.setPuntos(j.getPuntos() - this.getCoste()); // Resta los puntos del coste de la pista
-            // Provee una letra de la palabra como pista
-            char letraPista = this.getPalabra().toString().charAt(random.nextInt(5)); // Esto simplemente selecciona la primera letra, podrías querer hacer algo más sofisticado
+            // Muestra una letra de la palabra como pista
+            char letraPista = this.getPalabra().toString().charAt(random.nextInt(5));
             JOptionPane.showMessageDialog(null, "La palabra oculta contiene la " + letraPista);
         }
     }

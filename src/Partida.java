@@ -1,6 +1,5 @@
 
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -149,18 +148,11 @@ public class Partida implements Serializable{
             if (jugador1.getPuntos() > jugador2.getPuntos()) {
                 this.ganador = jugador1;
                 this.perdedor = jugador2;
-                System.out.println("El ganador es " + jugador1.getNombreUsuario());
             } else if (jugador2.getPuntos() > jugador1.getPuntos()) {
                 this.ganador = jugador2;
                 this.perdedor = jugador1;
                 System.out.println("El ganador es " + jugador2.getNombreUsuario());
-            } else {
-                // En caso de empate en puntos
-                System.out.println("La partida ha terminado en empate.");
-            }
-        } else {
-            // Modo entrenamiento. No hay ganador.
-            System.out.println("Modo de entrenamiento. No hay ganador.");
+            } 
         }
     }
 
@@ -223,14 +215,7 @@ public class Partida implements Serializable{
     public void setIntento(Intento intento) {
         this.intento = intento;
     }
-
-//    public List<Palabra> getPalabras() {
-//        return palabras;
-//    }
-//
-//    public void setPalabras(ArrayList<Palabra> palabras) {
-//        this.palabras = palabras;
-//    }
+    
     public int getTurno() {
         return turno;
     }
