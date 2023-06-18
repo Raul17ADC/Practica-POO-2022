@@ -11,13 +11,13 @@ public class Jugador implements Comparable<Jugador>{
         if ((nombreUsuario != null) && (!nombreUsuario.isEmpty())) {
             this.nombreUsuario = nombreUsuario;
         }
-        puntos = 0;
+        puntos = 5;
         estadisticas = new Estadisticas();
     }
     
     public Jugador() {
         nombreUsuario = "Sin definir";
-        puntos = 0;
+        puntos = 5;
         estadisticas = new Estadisticas();
     }
 

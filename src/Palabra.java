@@ -1,4 +1,6 @@
 
+import java.util.Arrays;
+
 public class Palabra {
 
     //Atributos
@@ -19,5 +21,20 @@ public class Palabra {
     @Override
     public String toString() {
         return String.valueOf(letras);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Palabra other = (Palabra) obj;
+        return Arrays.equals(this.letras, other.letras);
     }
 }

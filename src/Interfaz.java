@@ -13,6 +13,8 @@ import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import jdk.jshell.execution.Util;
 
 public class Interfaz extends javax.swing.JFrame {
 
@@ -20,6 +22,7 @@ public class Interfaz extends javax.swing.JFrame {
     private Partida partida, partidaEntrenamiento;
     private String j1, j2;
     private ArrayList<Palabra> totalPalabras, palabrasPartida;
+    private Palabra palabra;
 
     public Interfaz() {
         initComponents();
@@ -36,6 +39,7 @@ public class Interfaz extends javax.swing.JFrame {
         totalPalabras = new ArrayList<>();
         palabrasPartida = new ArrayList<>();
         partida = new Partida(palabrasPartida, j1, j2);
+        palabra = new Palabra("");
     }
 
     @SuppressWarnings("unchecked")
@@ -326,6 +330,11 @@ public class Interfaz extends javax.swing.JFrame {
         puntosJug.setText("Puntos disponibles: 50");
 
         bRegLetra.setText("Regalo de letra");
+        bRegLetra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRegLetraActionPerformed(evt);
+            }
+        });
 
         bRegPalabra.setText("Regalo de palabra");
 
@@ -723,7 +732,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel17.setText("Escribe el número de palabras por partida:");
 
-        tNPalabras.setText("3");
+        tNPalabras.setText("4");
 
         jLabel18.setText("¿Quieres que exista la pista de letra en las partidas?");
 
@@ -1098,8 +1107,8 @@ public class Interfaz extends javax.swing.JFrame {
             String nJ1 = partida.getJugador1().getNombreUsuario();
             String nJ2 = partida.getJugador2().getNombreUsuario();
             turnoJ.setText("Turno del jugador " + nJ1 + ":");
-
-            //turnoJ.setText("Turno del jugador " + nJ2 + ":");
+            puntosJug.setText("Puntos disponibles: 5");
+            palabra = palabrasPartida.get(0);
         }
     }//GEN-LAST:event_bPartidaActionPerformed
 
@@ -1126,22 +1135,85 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_pVolverOpcAdminActionPerformed
 
     private void bResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResolverActionPerformed
-        Palabra palabra = new Palabra(tPalabraMulti.getText());
+        Palabra pEscrita = new Palabra(tPalabraMulti.getText());
         if (tPalabraMulti.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Escribe la palabra que quieres probar.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else if (palabra.getLetras().length != 5) {
+        } else if (pEscrita.getLetras().length != 5) {
             JOptionPane.showMessageDialog(this, "La palabra debe ser de cinco letras.", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            tLetra1Multi.setText(String.valueOf(palabra.getLetras()[0]).toUpperCase());
-            tLetra1Multi.setBackground(Color.RED);
-            tLetra2Multi.setText(String.valueOf(palabra.getLetras()[1]).toUpperCase());
-            tLetra2Multi.setBackground(Color.GREEN);
-            tLetra3Multi.setText(String.valueOf(palabra.getLetras()[2]).toUpperCase());
-            tLetra3Multi.setBackground(Color.YELLOW);
-            tLetra4Multi.setText(String.valueOf(palabra.getLetras()[3]).toUpperCase());
-            tLetra4Multi.setBackground(Color.BLUE);
-            tLetra5Multi.setText(String.valueOf(palabra.getLetras()[4]).toUpperCase());
-            tLetra5Multi.setBackground(Color.WHITE);
+            tLetra1Multi.setText(Character.toString(pEscrita.getLetras()[0]));
+            tLetra2Multi.setText(Character.toString(pEscrita.getLetras()[1]));
+            tLetra3Multi.setText(Character.toString(pEscrita.getLetras()[2]));
+            tLetra4Multi.setText(Character.toString(pEscrita.getLetras()[3]));
+            tLetra5Multi.setText(Character.toString(pEscrita.getLetras()[4]));
+            partida.jugar(palabra, tPalabraMulti.getText());
+
+            for (int i = 0; i < 5; i++) {
+                char letraPalabra = palabra.toString().charAt(i);
+                char letraEscrita = pEscrita.toString().charAt(i);
+                JTextField textField = null;
+
+                switch (i) {
+                    case 0:
+                        textField = tLetra1Multi;
+                        break;
+                    case 1:
+                        textField = tLetra2Multi;
+                        break;
+                    case 2:
+                        textField = tLetra3Multi;
+                        break;
+                    case 3:
+                        textField = tLetra4Multi;
+                        break;
+                    case 4:
+                        textField = tLetra5Multi;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (letraEscrita == letraPalabra) {
+                    textField.setBackground(Color.GREEN);
+                } else if (palabra.toString().contains(String.valueOf(letraEscrita))) {
+                    textField.setBackground(Color.YELLOW);
+                } else {
+                    textField.setBackground(Color.WHITE);
+                }
+            }
+
+            tPalabraMulti.setText("");
+            if ((pEscrita.equals(palabra)) || (partida.getIntento().getNumIntento() == 5)) {
+                tLetra1Multi.setText("");
+                tLetra2Multi.setText("");
+                tLetra3Multi.setText("");
+                tLetra4Multi.setText("");
+                tLetra5Multi.setText("");
+                tLetra1Multi.setBackground(Color.WHITE);
+                tLetra2Multi.setBackground(Color.WHITE);
+                tLetra3Multi.setBackground(Color.WHITE);
+                tLetra4Multi.setBackground(Color.WHITE);
+                tLetra5Multi.setBackground(Color.WHITE);
+                String nJ1 = partida.getJugador1().getNombreUsuario();
+                String nJ2 = partida.getJugador2().getNombreUsuario();
+                if (turnoJ.getText().equals("Turno del jugador " + nJ1 + ":")) {
+                    turnoJ.setText("Turno del jugador " + nJ2 + ":");
+                    puntosJug.setText("Puntos disponibles: " + partida.getJugador2().getPuntos());
+                } else {
+                    turnoJ.setText("Turno del jugador " + nJ1 + ":");
+                    puntosJug.setText("Puntos disponibles: " + partida.getJugador1().getPuntos());
+                }
+                int index = palabrasPartida.indexOf(palabra);
+                if (index >= 0 && index < palabrasPartida.size() - 1) {
+                    palabra = palabrasPartida.get(index + 1);
+                } else {
+                    partida.determinarGanador();
+                    partida.terminarPartida();
+                    JOptionPane.showMessageDialog(this, "¡Partida finalizada!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    pOpcionesJuego.setVisible(true);
+                    pPartidaMulti.setVisible(false);
+                }
+            }
         }
     }//GEN-LAST:event_bResolverActionPerformed
 
@@ -1163,8 +1235,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void bParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bParametrosActionPerformed
         pParametros.setVisible(true);
         pOpcionesAdmin.setVisible(false);
-        int nPalabras = totalPalabras.size();
-        tNPalabras.setText(Integer.toString(nPalabras));
     }//GEN-LAST:event_bParametrosActionPerformed
 
     private void bGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuardarCambiosActionPerformed
@@ -1175,9 +1245,15 @@ public class Interfaz extends javax.swing.JFrame {
         bRegLetraEntrenamiento.setEnabled(siLetra);
         bRegPalabra.setEnabled(siPalabra);
         bRegPalabraEntrenamiento.setEnabled(siPalabra);
-        JOptionPane.showMessageDialog(this, "Cambios realizados.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        pOpcionesAdmin.setVisible(true);
-        pParametros.setVisible(false);
+        String nPalabras = tNPalabras.getText();
+        int numero = Integer.parseInt(nPalabras);
+        if (numero % 2 != 0) {
+            JOptionPane.showMessageDialog(this, "El número de palabras debe ser par.", "Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Cambios realizados.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            pOpcionesAdmin.setVisible(true);
+            pParametros.setVisible(false);
+        }
     }//GEN-LAST:event_bGuardarCambiosActionPerformed
 
     private void pVolverFichPalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pVolverFichPalActionPerformed
@@ -1267,6 +1343,10 @@ public class Interfaz extends javax.swing.JFrame {
     private void bRankPuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRankPuntosActionPerformed
         admin.crearRankingPuntos();
     }//GEN-LAST:event_bRankPuntosActionPerformed
+
+    private void bRegLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegLetraActionPerformed
+        //PistaLetra pLetra = new PistaLetra(palabra);
+    }//GEN-LAST:event_bRegLetraActionPerformed
 
     /**
      * @param args the command line arguments
