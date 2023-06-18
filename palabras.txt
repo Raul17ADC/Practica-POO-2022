@@ -24,7 +24,7 @@ lanza
 madre
 mando
 nubes
-ojos
+locos
 ojear
 pasta
 pilar
@@ -34,7 +34,6 @@ recio
 regla
 salsa
 tabla
-umbral
 vales
 vicio
 yates
@@ -42,8 +41,8 @@ zafar
 balsa
 horno
 llave
-pato
+patos
 roble
 toque
 trama
-zona
+zonas
