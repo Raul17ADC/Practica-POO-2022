@@ -1122,6 +1122,15 @@ public class Interfaz extends javax.swing.JFrame {
         pOpcionesJuego.setVisible(false);
         String nombre = tNombreJNuevo.getText();
         entrenamientoJug.setText("Entrenamiento del jugador " + nombre + ":");
+        String nPalabras = tNPalabras.getText();
+        int num = Integer.parseInt(nPalabras);
+        Random random = new Random();
+        for (int i = 0; i < num; i++) {
+            int indiceAleatorio = random.nextInt(totalPalabras.size());
+            Palabra palabraSeleccionada = totalPalabras.get(indiceAleatorio);
+            palabrasPartida.add(palabraSeleccionada);
+            totalPalabras.remove(indiceAleatorio);
+        }
         palabra = palabrasPartida.get(0);
     }//GEN-LAST:event_bEntrenamientoActionPerformed
 
